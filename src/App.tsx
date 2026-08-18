@@ -14,7 +14,7 @@ import { translations } from './utils/translations';
 const DivisionBrandLogo = () => (
   <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-600 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-zinc-950 shadow-sm shadow-teal-600/20 shrink-0">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 sm:w-5 sm:h-5">
-      <circle cx="12" cy="5" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="1.5" r="1.5" fill="currentColor" />
       <line x1="5" y1="12" x2="19" y2="12" />
       <circle cx="12" cy="19" r="1.5" fill="currentColor" />
     </svg>
@@ -65,23 +65,27 @@ export default function App() {
       {/* Üst Menü Çubuğu */}
       <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2">
-          {/* Logo & Kalem İkonlu Grup Adı */}
+          {/* Logo & Kalem Butonlu Grup Adı */}
           <div className="flex items-center gap-2.5 min-w-0 flex-1">
             <DivisionBrandLogo />
-            <div
-              onClick={() => inputRef.current?.focus()}
-              className="group flex items-center gap-1.5 min-w-0 flex-1 cursor-text"
-            >
+            <div className="flex items-center gap-1 min-w-0 flex-1">
               <input
                 ref={inputRef}
                 type="text"
                 maxLength={30}
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                className="font-bold text-zinc-900 dark:text-zinc-100 text-sm sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight max-w-[140px] sm:max-w-[240px]"
+                className="font-bold text-zinc-900 dark:text-zinc-100 text-sm sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight max-w-[140px] sm:max-w-[240px] cursor-text"
                 placeholder={t.groupNamePlaceholder}
               />
-              <Pencil className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500 dark:group-hover:text-zinc-300 transition-colors shrink-0" />
+              <button
+                type="button"
+                onClick={() => inputRef.current?.focus()}
+                className="p-1 text-zinc-400 hover:text-teal-600 dark:text-zinc-500 dark:hover:text-emerald-400 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer shrink-0"
+                title="Grup Adını Düzenle"
+              >
+                <Pencil className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
