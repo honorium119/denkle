@@ -2,21 +2,26 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Expense } from '../utils/settleDebts';
 import { decodeGroupData, type ShareableGroupData } from '../utils/urlState';
+import type { Language } from '../utils/translations';
 
 interface GroupState {
   groupName: string;
   currency: string;
   members: string[];
   expenses: Expense[];
+  theme: 'light' | 'dark';
+  lang: Language;
   
   // Eylemler
   setGroupName: (name: string) => void;
   setCurrency: (currency: string) => void;
+  setLang: (lang: Language) => void;
+  toggleTheme: () => void;
   addMember: (name: string) => void;
   removeMember: (name: string) => void;
   addExpense: (expense: Omit<Expense, 'id'>) => void;
   deleteExpense: (id: string) => void;
-  clearExpenses: () => void; // Yeni eklendi
+  clearExpenses: () => void;
   resetGroup: () => void;
   loadFromData: (data: ShareableGroupData) => void;
   checkUrlForData: () => boolean;
@@ -29,9 +34,22 @@ export const useGroupStore = create<GroupState>()(
       currency: '₺',
       members: [],
       expenses: [],
+      theme: 'light',
+      lang: 'tr',
 
       setGroupName: (groupName) => set({ groupName }),
       setCurrency: (currency) => set({ currency }),
+      setLang: (lang) => set({ lang }),
+
+      toggleTheme: () => {
+        const nextTheme = get().theme === 'light' ? 'dark' : 'light';
+        if (nextTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        set({ theme: nextTheme });
+      },
 
       addMember: (name) => {
         const trimmed = name.trim();
@@ -78,7 +96,7 @@ export const useGroupStore = create<GroupState>()(
 
       resetGroup: () => {
         set({
-          groupName: 'Yeni Grup',
+          groupName: get().lang === 'tr' ? 'Yeni Grup' : 'New Group',
           currency: '₺',
           members: [],
           expenses: [],
