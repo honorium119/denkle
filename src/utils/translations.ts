@@ -39,7 +39,6 @@ export const translations = {
     resetBtn: 'Grubu Sıfırla',
     groupNamePlaceholder: 'Grup Adı',
     helpBtn: 'Nasıl Çalışır?',
-    // Tanıtım & Uyarı Bildirimleri
     introTitle: "FairSplit'e Hoş Geldiniz! 👋",
     introSubtitle: 'Arkadaşlarınızla harcamaları bölüşmenin en hızlı ve üyeliksiz yolu.',
     introStep1Title: '1. Kişileri ve Masrafları Ekleyin',
@@ -54,6 +53,7 @@ export const translations = {
     toastExpenseAdded: 'Masraf başarıyla eklendi.',
     toastSelectParticipant: 'En az bir katılımcı seçmelisiniz.',
     toastInvalidAmount: 'Lütfen geçerli bir tutar girin.',
+    toastMaxAmount: 'Tek seferde en fazla 10.000.000 tutarında masraf girilebilir.',
   },
   en: {
     appTitle: 'FairSplit',
@@ -93,7 +93,6 @@ export const translations = {
     resetBtn: 'Reset Group',
     groupNamePlaceholder: 'Group Name',
     helpBtn: 'How it works?',
-    // Intro & Toast messages
     introTitle: 'Welcome to FairSplit! 👋',
     introSubtitle: 'The fastest, serverless way to split group expenses.',
     introStep1Title: '1. Add Members & Expenses',
@@ -108,5 +107,6 @@ export const translations = {
     toastExpenseAdded: 'Expense added successfully.',
     toastSelectParticipant: 'You must select at least one participant.',
     toastInvalidAmount: 'Please enter a valid amount.',
+    toastMaxAmount: 'Maximum single expense cannot exceed 10,000,000.',
   },
 };
