@@ -10,7 +10,7 @@ import { ConfirmModal } from './components/ConfirmModal';
 import { IntroModal } from './components/IntroModal';
 import { translations } from './utils/translations';
 
-// Sade & Anlamlı Bölme (÷) Sembolü Logosu (Kusursuz Oranlı)
+// Sade & Anlamlı Bölme (÷) Sembolü Logosu
 const DivisionBrandLogo = () => (
   <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-600 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-zinc-950 shadow-sm shadow-teal-600/20 shrink-0">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 sm:w-5 sm:h-5">
@@ -62,20 +62,21 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 pb-16 overflow-x-hidden transition-colors duration-200">
-      {/* Üst Menü Çubuğu */}
+      {/* Üst Menü Çubuğu (Mobilde Ferah & Sıkışmayan Düzen) */}
       <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors">
-        <div className="max-w-4xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2">
-          {/* Logo & Kalem Butonlu Grup Adı */}
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+        <div className="max-w-4xl mx-auto px-2.5 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-3">
+          
+          {/* Sol: Logo + Grup Adı + Sabit Kalem Butonu */}
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
             <DivisionBrandLogo />
-            <div className="flex items-center gap-1 min-w-0 flex-1">
+            <div className="flex items-center gap-1 min-w-0 max-w-[110px] sm:max-w-[240px]">
               <input
                 ref={inputRef}
                 type="text"
                 maxLength={30}
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                className="font-bold text-zinc-900 dark:text-zinc-100 text-sm sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight max-w-[140px] sm:max-w-[240px] cursor-text"
+                className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight w-full cursor-text"
                 placeholder={t.groupNamePlaceholder}
               />
               <button
@@ -84,18 +85,18 @@ export default function App() {
                 className="p-1 text-zinc-400 hover:text-teal-600 dark:text-zinc-500 dark:hover:text-emerald-400 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer shrink-0"
                 title="Grup Adını Düzenle"
               >
-                <Pencil className="w-3.5 h-3.5" />
+                <Pencil className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </button>
             </div>
           </div>
 
-          {/* Sağ Aksiyon Butonları */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Sağ: Kompakt Aksiyon Butonları */}
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Para Birimi */}
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
-              className="text-xs font-semibold bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl px-2 py-1.5 sm:px-2.5 sm:py-2 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
+              className="text-[11px] sm:text-xs font-semibold bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 rounded-lg sm:rounded-xl px-1.5 py-1 sm:px-2.5 sm:py-2 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
             >
               <option value="₺">₺ TRY</option>
               <option value="$">$ USD</option>
@@ -106,52 +107,52 @@ export default function App() {
             {/* Dil Değiştirici */}
             <button
               onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
-              className="px-2 py-1.5 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl text-xs font-bold flex items-center gap-1 transition cursor-pointer"
+              className="px-1.5 py-1 sm:px-2 sm:py-1.5 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-0.5 sm:gap-1 transition cursor-pointer"
               title="Change Language"
             >
-              <Globe className="w-3.5 h-3.5" />
+              <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               <span className="uppercase">{lang}</span>
             </button>
 
             {/* Tanıtım / Yardım Butonu */}
             <button
               onClick={() => setIsIntroOpen(true)}
-              className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-xl transition cursor-pointer"
+              className="p-1 sm:p-2 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-lg sm:rounded-xl transition cursor-pointer"
               title={t.helpBtn}
             >
-              <HelpCircle className="w-4 h-4 text-teal-600 dark:text-emerald-400" />
+              <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-teal-600 dark:text-emerald-400" />
             </button>
 
             {/* Tema Butonu */}
             <button
               onClick={toggleTheme}
-              className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer"
+              className="p-1 sm:p-2 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-lg sm:rounded-xl transition cursor-pointer"
               title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
             >
-              {theme === 'light' ? <Moon className="w-4 h-4 text-zinc-600" /> : <Sun className="w-4 h-4 text-amber-400" />}
+              {theme === 'light' ? <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600" /> : <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />}
             </button>
 
             {/* Paylaş Butonu */}
             <button
               onClick={() => setIsShareOpen(true)}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-xl text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-xs"
+              className="px-2 py-1 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-xs"
             >
-              <Share2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t.shareBtn}</span>
+              <Share2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span className="hidden sm:inline">{t.shareBtn}</span>
             </button>
 
             {/* Sıfırla Butonu */}
             <button
               onClick={() => setIsResetModalOpen(true)}
-              className="p-1.5 sm:p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
+              className="p-1 sm:p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 rounded-lg sm:rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
               title={t.resetBtn}
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Ana Gövde */}
+      {/* Main Content */}
       <main className="max-w-4xl mx-auto px-3 sm:px-4 pt-4 sm:pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           {/* Sol Kolon */}
