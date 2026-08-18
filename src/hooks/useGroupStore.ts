@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Expense } from '../utils/settleDebts';
-import { type ShareableGroupData, decodeGroupData } from '../utils/urlState';
+import { decodeGroupData, type ShareableGroupData } from '../utils/urlState';
 
 interface GroupState {
   groupName: string;
@@ -9,13 +9,14 @@ interface GroupState {
   members: string[];
   expenses: Expense[];
   
-  // Eylemler (Actions)
+  // Eylemler
   setGroupName: (name: string) => void;
   setCurrency: (currency: string) => void;
   addMember: (name: string) => void;
   removeMember: (name: string) => void;
   addExpense: (expense: Omit<Expense, 'id'>) => void;
   deleteExpense: (id: string) => void;
+  clearExpenses: () => void; // Yeni eklendi
   resetGroup: () => void;
   loadFromData: (data: ShareableGroupData) => void;
   checkUrlForData: () => boolean;
@@ -53,7 +54,6 @@ export const useGroupStore = create<GroupState>()(
         const { members, expenses } = get();
         set({
           members: members.filter((m) => m !== name),
-          // Üye silinirse onun ödediği veya katıldığı harcamaları da güncelle
           expenses: expenses
             .filter((e) => e.payer !== name)
             .map((e) => ({
@@ -77,6 +77,11 @@ export const useGroupStore = create<GroupState>()(
         set((state) => ({
           expenses: state.expenses.filter((e) => e.id !== id),
         }));
+      },
+
+      clearExpenses: () => {
+        set({ expenses: [] });
+        window.location.hash = '';
       },
 
       resetGroup: () => {
@@ -112,7 +117,7 @@ export const useGroupStore = create<GroupState>()(
       },
     }),
     {
-      name: 'fairsplit-storage', // Tarayıcı local storage anahtarı
+      name: 'fairsplit-storage',
     }
   )
 );
