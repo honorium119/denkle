@@ -6,10 +6,12 @@ import { ExpenseForm } from './components/ExpenseForm';
 import { ExpenseList } from './components/ExpenseList';
 import { SettlementView } from './components/SettlementView';
 import { ShareModal } from './components/ShareModal';
+import { ConfirmModal } from './components/ConfirmModal';
 
 export default function App() {
   const { groupName, setGroupName, currency, setCurrency, checkUrlForData, resetGroup } = useGroupStore();
   const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   useEffect(() => {
     checkUrlForData();
@@ -48,18 +50,14 @@ export default function App() {
 
             <button
               onClick={() => setIsShareOpen(true)}
-              className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-xl text-xs font-bold flex items-center gap-1 transition"
+              className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-xl text-xs font-bold flex items-center gap-1 transition cursor-pointer"
             >
               <Share2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Paylaş</span>
             </button>
 
             <button
-              onClick={() => {
-                if (window.confirm('Tüm grubu sıfırlamak istediğinize emin misiniz?')) {
-                  resetGroup();
-                }
-              }}
-              className="p-1.5 sm:p-2 text-slate-400 hover:text-red-600 rounded-xl hover:bg-red-50 transition"
+              onClick={() => setIsResetModalOpen(true)}
+              className="p-1.5 sm:p-2 text-slate-400 hover:text-red-600 rounded-xl hover:bg-red-50 transition cursor-pointer"
               title="Grubu Sıfırla"
             >
               <RotateCcw className="w-4 h-4" />
@@ -87,7 +85,19 @@ export default function App() {
         </div>
       </main>
 
+      {/* Modallar */}
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
+      
+      <ConfirmModal
+        isOpen={isResetModalOpen}
+        variant="danger"
+        title="Grubu Sıfırla?"
+        message="Tüm üyeler ve harcamalar kalıcı olarak silinecektir. Bu işlem geri alınamaz."
+        confirmText="Evet, Sıfırla"
+        cancelText="Vazgeç"
+        onConfirm={resetGroup}
+        onClose={() => setIsResetModalOpen(false)}
+      />
     </div>
   );
 }
