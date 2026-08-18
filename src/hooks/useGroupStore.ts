@@ -64,12 +64,14 @@ export const useGroupStore = create<GroupState>()(
         const { members, expenses } = get();
         set({
           members: members.filter((m) => m !== name),
+          // DÜZELTME 1: Katılımcısı kalmayan masrafları da güvenle temizle
           expenses: expenses
             .filter((e) => e.payer !== name)
             .map((e) => ({
               ...e,
               participants: e.participants.filter((p) => p !== name),
-            })),
+            }))
+            .filter((e) => e.participants.length > 0),
         });
       },
 
@@ -120,6 +122,8 @@ export const useGroupStore = create<GroupState>()(
           const data = decodeGroupData(encoded);
           if (data) {
             get().loadFromData(data);
+            // DÜZELTME 2: Veri yüklendikten sonra URL'deki eski hash'i temizle
+            window.history.replaceState(null, '', window.location.pathname);
             return true;
           }
         }
