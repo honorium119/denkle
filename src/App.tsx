@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
+import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle, Pencil } from 'lucide-react';
 import { useGroupStore } from './hooks/useGroupStore';
 import { MemberManager } from './components/MemberManager';
 import { ExpenseForm } from './components/ExpenseForm';
@@ -38,6 +38,7 @@ export default function App() {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [isIntroOpen, setIsIntroOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const t = translations[lang];
 
   useEffect(() => {
@@ -64,17 +65,23 @@ export default function App() {
       {/* Üst Menü Çubuğu */}
       <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2">
-          {/* Logo & Grup Adı */}
+          {/* Logo & Kalem İkonlu Grup Adı */}
           <div className="flex items-center gap-2.5 min-w-0 flex-1">
             <DivisionBrandLogo />
-            <div className="min-w-0 flex-1">
+            <div
+              onClick={() => inputRef.current?.focus()}
+              className="group flex items-center gap-1.5 min-w-0 flex-1 cursor-text"
+            >
               <input
+                ref={inputRef}
                 type="text"
+                maxLength={30}
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                className="font-bold text-zinc-900 dark:text-zinc-100 text-sm sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition w-full truncate bg-transparent tracking-tight"
+                className="font-bold text-zinc-900 dark:text-zinc-100 text-sm sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight max-w-[140px] sm:max-w-[240px]"
                 placeholder={t.groupNamePlaceholder}
               />
+              <Pencil className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-600 dark:text-zinc-500 dark:group-hover:text-zinc-300 transition-colors shrink-0" />
             </div>
           </div>
 

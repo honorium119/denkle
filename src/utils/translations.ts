@@ -39,7 +39,7 @@ export const translations = {
     resetBtn: 'Grubu Sıfırla',
     groupNamePlaceholder: 'Grup Adı',
     helpBtn: 'Nasıl Çalışır?',
-    // Tanıtım Modalı
+    // Tanıtım & Uyarı Bildirimleri
     introTitle: "FairSplit'e Hoş Geldiniz! 👋",
     introSubtitle: 'Arkadaşlarınızla harcamaları bölüşmenin en hızlı ve üyeliksiz yolu.',
     introStep1Title: '1. Kişileri ve Masrafları Ekleyin',
@@ -49,6 +49,11 @@ export const translations = {
     introStep3Title: '3. QR veya Link ile Paylaşın',
     introStep3Desc: 'Hesap açmaya gerek yok! Tek tıkla aldığınız QR kodu veya linki arkadaşlarınıza gönderin.',
     introStartBtn: 'Harika, Başlayalım!',
+    toastDuplicateMember: 'Bu isimde bir üye zaten mevcut!',
+    toastMemberLength: 'İsim en fazla 20 karakter olabilir.',
+    toastExpenseAdded: 'Masraf başarıyla eklendi.',
+    toastSelectParticipant: 'En az bir katılımcı seçmelisiniz.',
+    toastInvalidAmount: 'Lütfen geçerli bir tutar girin.',
   },
   en: {
     appTitle: 'FairSplit',
@@ -88,7 +93,7 @@ export const translations = {
     resetBtn: 'Reset Group',
     groupNamePlaceholder: 'Group Name',
     helpBtn: 'How it works?',
-    // Intro Modal
+    // Intro & Toast messages
     introTitle: 'Welcome to FairSplit! 👋',
     introSubtitle: 'The fastest, serverless way to split group expenses.',
     introStep1Title: '1. Add Members & Expenses',
@@ -98,5 +103,10 @@ export const translations = {
     introStep3Title: '3. Share via QR or Link',
     introStep3Desc: 'No sign-up or database! Share the live group state instantly with a single URL or QR code.',
     introStartBtn: "Awesome, Let's Start!",
+    toastDuplicateMember: 'A member with this name already exists!',
+    toastMemberLength: 'Name must be at most 20 characters.',
+    toastExpenseAdded: 'Expense added successfully.',
+    toastSelectParticipant: 'You must select at least one participant.',
+    toastInvalidAmount: 'Please enter a valid amount.',
   },
 };
