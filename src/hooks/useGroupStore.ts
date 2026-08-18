@@ -25,18 +25,10 @@ interface GroupState {
 export const useGroupStore = create<GroupState>()(
   persist(
     (set, get) => ({
-      groupName: 'Tatil Masrafları',
+      groupName: 'Yeni Grup',
       currency: '₺',
-      members: ['Ahmet', 'Mehmet', 'Can'],
-      expenses: [
-        {
-          id: 'demo-1',
-          description: 'Akşam Yemeği',
-          amount: 300,
-          payer: 'Ahmet',
-          participants: ['Ahmet', 'Mehmet', 'Can'],
-        },
-      ],
+      members: [],
+      expenses: [],
 
       setGroupName: (groupName) => set({ groupName }),
       setCurrency: (currency) => set({ currency }),
