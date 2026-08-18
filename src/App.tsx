@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Share2, RotateCcw, Moon, Sun, Globe } from 'lucide-react';
+import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle } from 'lucide-react';
 import { useGroupStore } from './hooks/useGroupStore';
 import { MemberManager } from './components/MemberManager';
 import { ExpenseForm } from './components/ExpenseForm';
@@ -7,17 +7,17 @@ import { ExpenseList } from './components/ExpenseList';
 import { SettlementView } from './components/SettlementView';
 import { ShareModal } from './components/ShareModal';
 import { ConfirmModal } from './components/ConfirmModal';
+import { IntroModal } from './components/IntroModal';
 import { translations } from './utils/translations';
 
-// Modern FairSplit Özel Logosu
+// Modern FairSplit Özel Logosu (Bölüştürülmüş Kart / Fiş İkonu)
 const BrandLogo = () => (
-  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white shadow-sm shadow-indigo-500/25 shrink-0">
+  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-sm shadow-indigo-500/25 shrink-0">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-      <path d="M16 3h5v5" />
-      <path d="M8 21H3v-5" />
-      <path d="M21 3l-7.5 7.5" />
-      <path d="M3 21l7.5-7.5" />
-      <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+      <rect x="3" y="4" width="18" height="16" rx="3" />
+      <path d="M3 10h18" />
+      <path d="M8 15h3" />
+      <path d="M12 10v8" strokeDasharray="2 2" />
     </svg>
   </div>
 );
@@ -38,6 +38,7 @@ export default function App() {
 
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const [isIntroOpen, setIsIntroOpen] = useState(false);
   const t = translations[lang];
 
   useEffect(() => {
@@ -47,7 +48,18 @@ export default function App() {
     } else {
       document.documentElement.classList.remove('dark');
     }
+
+    // İlk kez gelen kullanıcılara otomatik tanıtım penceresini aç
+    const hasSeenIntro = localStorage.getItem('fairsplit-seen-intro-v1');
+    if (!hasSeenIntro) {
+      setIsIntroOpen(true);
+    }
   }, [checkUrlForData, theme]);
+
+  const handleCloseIntro = () => {
+    localStorage.setItem('fairsplit-seen-intro-v1', 'true');
+    setIsIntroOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-16 overflow-x-hidden transition-colors duration-200">
@@ -82,7 +94,7 @@ export default function App() {
               <option value="£">£ GBP</option>
             </select>
 
-            {/* Dil Değiştirici (TR / EN) */}
+            {/* Dil Değiştirici */}
             <button
               onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
               className="px-2 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold flex items-center gap-1 transition cursor-pointer"
@@ -92,7 +104,16 @@ export default function App() {
               <span className="uppercase">{lang}</span>
             </button>
 
-            {/* Tema Butonu (Aydınlık / Karanlık) */}
+            {/* Tanıtım / Yardım Butonu */}
+            <button
+              onClick={() => setIsIntroOpen(true)}
+              className="p-1.5 sm:p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl transition cursor-pointer"
+              title={t.helpBtn}
+            >
+              <HelpCircle className="w-4 h-4 text-indigo-500" />
+            </button>
+
+            {/* Tema Butonu */}
             <button
               onClick={toggleTheme}
               className="p-1.5 sm:p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl transition cursor-pointer"
@@ -142,6 +163,7 @@ export default function App() {
 
       {/* Modallar */}
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
+      <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
 
       <ConfirmModal
         isOpen={isResetModalOpen}
