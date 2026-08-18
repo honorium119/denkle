@@ -18,7 +18,6 @@ export const ExpenseForm: React.FC = () => {
     setSelectedParticipants(members);
   }, [members]);
 
-  // Menü dışına tıklandığında dropdown'ı kapat
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -58,27 +57,27 @@ export const ExpenseForm: React.FC = () => {
   if (members.length === 0) return null;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xs border border-slate-100 dark:border-slate-800 mb-6 transition-colors">
+    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 sm:p-6 shadow-xs border border-zinc-200/70 dark:border-zinc-800 mb-6 transition-colors">
       <div className="flex items-center gap-2 mb-4">
-        <Receipt className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-        <h2 className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100">{t.newExpense}</h2>
+        <Receipt className="w-5 h-5 text-teal-600 dark:text-emerald-400" />
+        <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">{t.newExpense}</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">{t.description}</label>
+            <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">{t.description}</label>
             <input
               type="text"
               placeholder={t.descPlaceholder}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition"
+              className="w-full px-3.5 py-2.5 text-sm bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-emerald-500/20 focus:border-teal-600 dark:focus:border-emerald-400 transition"
               required
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">
               {t.amount} ({currency})
             </label>
             <input
@@ -87,27 +86,26 @@ export const ExpenseForm: React.FC = () => {
               placeholder="0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-full px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition"
+              className="w-full px-3.5 py-2.5 text-sm bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-emerald-500/20 focus:border-teal-600 dark:focus:border-emerald-400 transition"
               required
             />
           </div>
         </div>
 
-        {/* Özel Tasarımlı "Kim Ödedi?" Açılır Menüsü */}
+        {/* Özel "Kim Ödedi" Seçim Menüsü */}
         <div className="relative" ref={dropdownRef}>
-          <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">{t.whoPaid}</label>
+          <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">{t.whoPaid}</label>
           <button
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-full flex items-center justify-between px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition cursor-pointer"
+            className="w-full flex items-center justify-between px-3.5 py-2.5 text-sm bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-emerald-500/20 focus:border-teal-600 dark:focus:border-emerald-400 transition cursor-pointer"
           >
             <span>{payer || members[0]}</span>
-            <ChevronDown className={`w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180 text-indigo-500' : ''}`} />
+            <ChevronDown className={`w-4 h-4 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180 text-teal-600 dark:text-emerald-400' : ''}`} />
           </button>
 
-          {/* Açılır Liste */}
           {isDropdownOpen && (
-            <div className="absolute left-0 right-0 top-full mt-1.5 z-30 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-xl p-1.5 animate-in fade-in zoom-in-95 duration-150">
+            <div className="absolute left-0 right-0 top-full mt-1.5 z-30 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl shadow-xl p-1.5 animate-in fade-in zoom-in-95 duration-150">
               <div className="max-h-48 overflow-y-auto space-y-1">
                 {members.map((m) => {
                   const isSelected = m === payer;
@@ -121,12 +119,12 @@ export const ExpenseForm: React.FC = () => {
                       }}
                       className={`w-full flex items-center justify-between px-3 py-2 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer ${
                         isSelected
-                          ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 font-bold'
-                          : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700/60'
+                          ? 'bg-teal-50 dark:bg-emerald-950/50 text-teal-700 dark:text-emerald-300 font-bold'
+                          : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700/60'
                       }`}
                     >
                       <span>{m}</span>
-                      {isSelected && <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />}
+                      {isSelected && <Check className="w-4 h-4 text-teal-600 dark:text-emerald-400" />}
                     </button>
                   );
                 })}
@@ -136,7 +134,7 @@ export const ExpenseForm: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2">{t.splitBetween}</label>
+          <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-2">{t.splitBetween}</label>
           <div className="flex flex-wrap gap-2">
             {members.map((member) => {
               const isSelected = selectedParticipants.includes(member);
@@ -147,8 +145,8 @@ export const ExpenseForm: React.FC = () => {
                   onClick={() => toggleParticipant(member)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
                     isSelected
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300'
-                      : 'bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      ? 'bg-teal-50 dark:bg-emerald-950/50 border border-teal-200 dark:border-emerald-800/80 text-teal-800 dark:text-emerald-300 font-bold'
+                      : 'bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-750'
                   }`}
                 >
                   {isSelected ? '✓ ' : '+ '}
@@ -161,7 +159,7 @@ export const ExpenseForm: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
+          className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
         >
           <Plus className="w-4 h-4" /> {t.saveExpense}
         </button>
