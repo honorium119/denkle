@@ -10,13 +10,13 @@ import { ConfirmModal } from './components/ConfirmModal';
 import { IntroModal } from './components/IntroModal';
 import { translations } from './utils/translations';
 
-// Sade & Anlamlı Bölme (÷) Sembolü Logosu
+// Sade & Anlamlı Bölme (÷) Sembolü Logosu (Kusursuz Oranlı)
 const DivisionBrandLogo = () => (
   <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-600 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-zinc-950 shadow-sm shadow-teal-600/20 shrink-0">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 sm:w-5 sm:h-5">
-      <circle cx="12" cy="1.5" r="1.5" fill="currentColor" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 sm:w-5 sm:h-5">
+      <circle cx="12" cy="6" r="1.8" fill="currentColor" />
       <line x1="5" y1="12" x2="19" y2="12" />
-      <circle cx="12" cy="19" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="18" r="1.8" fill="currentColor" />
     </svg>
   </div>
 );

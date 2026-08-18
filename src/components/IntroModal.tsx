@@ -27,10 +27,10 @@ export const IntroModal: React.FC<IntroModalProps> = ({ isOpen, onClose }) => {
         {/* Üst Bölme Logosu */}
         <div className="text-center mb-6">
           <div className="w-12 h-12 rounded-2xl bg-teal-600 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-zinc-950 mx-auto mb-3 shadow-md shadow-teal-600/20">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <circle cx="12" cy="5" r="1.5" fill="currentColor" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+              <circle cx="12" cy="6" r="1.8" fill="currentColor" />
               <line x1="5" y1="12" x2="19" y2="12" />
-              <circle cx="12" cy="19" r="1.5" fill="currentColor" />
+              <circle cx="12" cy="18" r="1.8" fill="currentColor" />
             </svg>
           </div>
           <h2 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">{t.introTitle}</h2>
