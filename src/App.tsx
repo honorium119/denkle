@@ -73,19 +73,20 @@ export default function App() {
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 overflow-x-hidden relative transition-colors duration-300 flex flex-col justify-between">
       
-      {/* Atmosferik Işık (Ambient Glow) */}
+      {/* Atmosferik Işık */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-gradient-to-b from-emerald-500/15 via-teal-500/5 to-transparent blur-3xl pointer-events-none -z-0" />
 
       <div>
         {/* Üst Menü Çubuğu */}
         <header className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors no-print">
-          <div className="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2">
+          <div className="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2.5 sm:gap-4">
             
-            {/* Sol: Gruplar Çekmecesi + Dynamic Slice Logo + Grup Adı */}
-            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
+            {/* Sol: Gruplar Çekmecesi + Dynamic Slice Logo + Genişletilmiş Grup Adı */}
+            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 max-w-[52%] sm:max-w-[62%]">
               <button
+                type="button"
                 onClick={() => setIsDrawerOpen(true)}
-                className="p-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0"
+                className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0"
                 title={t.groupsTitle}
                 aria-label={t.groupsTitle}
               >
@@ -94,7 +95,8 @@ export default function App() {
 
               <DynamicSliceLogo />
 
-              <div className="flex items-center gap-1 min-w-0 max-w-[120px] sm:max-w-[240px]">
+              {/* Ferah Grup Adı Kapsayıcısı */}
+              <div className="flex items-center gap-1.5 min-w-[120px] flex-1 bg-zinc-100/80 dark:bg-zinc-800/60 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-2.5 py-1.5 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60 focus-within:border-teal-500 dark:focus-within:border-emerald-400 transition">
                 <input
                   ref={inputRef}
                   type="text"
@@ -102,17 +104,17 @@ export default function App() {
                   aria-label={t.groupNamePlaceholder}
                   value={currentGroup?.name || ''}
                   onChange={(e) => setGroupName(e.target.value)}
-                  className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight w-full cursor-text"
+                  className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-sm focus:outline-none bg-transparent tracking-tight w-full truncate cursor-text"
                   placeholder={t.groupNamePlaceholder}
                 />
                 <button
                   type="button"
                   onClick={() => inputRef.current?.focus()}
-                  className="p-1 text-zinc-500 hover:text-teal-600 dark:text-zinc-400 dark:hover:text-emerald-400 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer shrink-0"
-                  title="Grup Adını Düzenle"
                   aria-label="Grup Adını Düzenle"
+                  className="text-zinc-400 hover:text-teal-600 dark:hover:text-emerald-400 transition cursor-pointer shrink-0"
+                  title="Grup Adını Düzenle"
                 >
-                  <Pencil className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -136,48 +138,54 @@ export default function App() {
               </select>
 
               <button
+                type="button"
                 onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
                 aria-label={lang === 'tr' ? "Switch to English" : "Türkçe'ye Geç"}
                 className="px-2 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer"
                 title="Change Language"
               >
-                <Globe className="w-3.5 h-3.5" />
+                <Globe className="w-3.5 h-3.5" aria-hidden="true" />
                 <span className="uppercase">{lang}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => setIsIntroOpen(true)}
                 aria-label={t.helpBtn}
-                className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-xl transition cursor-pointer"
+                className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-xl transition cursor-pointer hidden md:flex items-center justify-center"
                 title={t.helpBtn}
               >
-                <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-teal-600 dark:text-emerald-400" />
+                <HelpCircle className="w-4 h-4 text-teal-600 dark:text-emerald-400" aria-hidden="true" />
               </button>
 
               <button
+                type="button"
                 onClick={toggleTheme}
                 aria-label={theme === 'light' ? 'Karanlık Moda Geç' : 'Aydınlık Moda Geç'}
                 className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer"
                 title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
               >
-                {theme === 'light' ? <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-600" /> : <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />}
+                {theme === 'light' ? <Moon className="w-4 h-4 text-zinc-600" aria-hidden="true" /> : <Sun className="w-4 h-4 text-amber-400" aria-hidden="true" />}
               </button>
 
               <button
+                type="button"
                 onClick={() => setIsShareOpen(true)}
                 aria-label={t.shareBtn}
                 className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm shadow-emerald-500/20"
               >
-                <Share2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t.shareBtn}</span>
+                <Share2 className="w-3.5 h-3.5" aria-hidden="true" />
+                <span className="hidden sm:inline">{t.shareBtn}</span>
               </button>
 
               <button
+                type="button"
                 onClick={() => setIsResetModalOpen(true)}
                 aria-label={t.resetBtn}
-                className="p-1.5 sm:p-2 text-zinc-500 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
+                className="p-1.5 sm:p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
                 title={t.resetBtn}
               >
-                <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <RotateCcw className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -186,7 +194,7 @@ export default function App() {
         {/* Hero Alanı */}
         <section className="max-w-5xl mx-auto px-4 pt-6 sm:pt-10 pb-4 text-center relative z-10 no-print">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-teal-700 dark:text-emerald-300 text-xs font-bold mb-3.5 backdrop-blur-md shadow-xs">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            <ShieldCheck className="w-4 h-4 text-emerald-500" aria-hidden="true" />
             <span>{t.heroBadge}</span>
           </div>
 
@@ -208,18 +216,17 @@ export default function App() {
             )}
           </h1>
 
-          {/* Kontrast İyileştirmesi: text-zinc-600 dark:text-zinc-300 */}
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-4 text-[11px] sm:text-xs text-zinc-600 dark:text-zinc-300 font-medium">
             <span className="inline-flex items-center gap-1">
-              <Zap className="w-3.5 h-3.5 text-amber-500" /> {lang === 'tr' ? 'Minimum para transferi' : 'Minimum transfers'}
+              <Zap className="w-3.5 h-3.5 text-amber-500" aria-hidden="true" /> {lang === 'tr' ? 'Minimum para transferi' : 'Minimum transfers'}
             </span>
             <span>•</span>
             <span className="inline-flex items-center gap-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> {lang === 'tr' ? 'Şifre & Üyelik yok' : 'No passwords or accounts'}
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" aria-hidden="true" /> {lang === 'tr' ? 'Şifre & Üyelik yok' : 'No passwords or accounts'}
             </span>
             <span>•</span>
             <span className="inline-flex items-center gap-1">
-              <Share2 className="w-3.5 h-3.5 text-teal-500" /> {lang === 'tr' ? 'QR & Link ile anında paylaşım' : 'Instant QR & Link sharing'}
+              <Share2 className="w-3.5 h-3.5 text-teal-500" aria-hidden="true" /> {lang === 'tr' ? 'QR & Link ile anında paylaşım' : 'Instant QR & Link sharing'}
             </span>
           </div>
         </section>
@@ -242,13 +249,13 @@ export default function App() {
         </main>
       </div>
 
-      {/* Modern SaaS Footer */}
+      {/* Footer */}
       <Footer
         onOpenIntro={() => setIsIntroOpen(true)}
         onOpenInstall={() => setIsInstallOpen(true)}
       />
 
-      {/* Modallar, Çekmeceler ve PWA Yükleme Banner'ı */}
+      {/* Modallar */}
       <GroupDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
       <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
