@@ -25,8 +25,8 @@ export const ReceiptModal: React.FC = () => {
   });
   const shareUrl = `${window.location.origin}${window.location.pathname}#data=${encodedData}`;
 
-  const receiptId = `FS-${Math.abs(
-    groupName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) * 17
+  const receiptId = `DNK-${Math.abs(
+    groupName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) * 19
   )
     .toString()
     .slice(0, 6)}`;
@@ -41,7 +41,6 @@ export const ReceiptModal: React.FC = () => {
 
   return (
     <div className="receipt-overlay fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 backdrop-blur-xs p-4 animate-in fade-in duration-200 overflow-y-auto">
-      {/* Modal Kutusu */}
       <div className="receipt-wrapper relative w-full max-w-md my-8 flex flex-col items-center">
         
         {/* Yazdırılabilir Termal Fiş Kartı */}
@@ -52,9 +51,13 @@ export const ReceiptModal: React.FC = () => {
           {/* Üst Logo ve Başlık */}
           <div className="text-center pb-5 border-b border-dashed border-zinc-300">
             <div className="w-10 h-10 rounded-xl bg-zinc-900 text-white flex items-center justify-center mx-auto mb-2 font-sans font-black text-lg shadow-sm">
-              ÷
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+                <path d="M6 18L18 6" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                <circle cx="8.5" cy="7.5" r="2" fill="#34d399" />
+                <circle cx="15.5" cy="16.5" r="2" fill="#10b981" />
+              </svg>
             </div>
-            <h2 className="font-sans font-black text-xl tracking-tight text-zinc-900 uppercase">FAIRSPLIT</h2>
+            <h2 className="font-sans font-black text-xl tracking-tight text-zinc-900 uppercase">DENKLE</h2>
             <p className="text-[11px] font-medium text-zinc-500 font-sans tracking-wide mt-0.5">{groupName}</p>
 
             <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-4 font-mono">
@@ -131,7 +134,7 @@ export const ReceiptModal: React.FC = () => {
             )}
           </div>
 
-          {/* Fiş Altı Doğrulama QR Kodu & Dipnot */}
+          {/* Fiş Altı QR & Dipnot */}
           <div className="pt-4 text-center">
             <div className="flex justify-center mb-2">
               <div className="p-2 bg-white border border-zinc-200 rounded-xl shadow-2xs inline-block">
@@ -142,7 +145,7 @@ export const ReceiptModal: React.FC = () => {
           </div>
         </div>
 
-        {/* Ekranda Görünen Aksiyon Butonları (Yazdırırken Gizlenir) */}
+        {/* Aksiyon Butonları */}
         <div className="w-full flex gap-2.5 mt-4 no-print">
           <button
             type="button"
@@ -160,7 +163,6 @@ export const ReceiptModal: React.FC = () => {
           </button>
         </div>
 
-        {/* Kapat Çarpı Butonu */}
         <button
           onClick={() => setIsReceiptOpen(false)}
           className="absolute -top-3 -right-3 sm:-right-4 bg-zinc-900 text-zinc-400 hover:text-white p-2 rounded-full border border-zinc-700 transition cursor-pointer no-print shadow-md"

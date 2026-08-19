@@ -39,7 +39,7 @@ export const SettlementView: React.FC = () => {
       });
     }
 
-    text += `\n🔗 *FairSplit ile kolayca hesaplandı.*`;
+    text += `\n🔗 *Denkle ile anında denkleştirildi.*`;
 
     navigator.clipboard.writeText(text);
     setToastMessage(t.whatsappCopied);
