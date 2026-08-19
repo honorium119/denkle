@@ -19,7 +19,7 @@ import { enablePersistentStorage } from './utils/storagePersistence';
 export const DynamicSliceLogo = ({ className = 'w-8 h-8 sm:w-9 sm:h-9' }: { className?: string }) => (
   <div className={`${className} rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-950 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center border border-emerald-500/30 shadow-md shadow-emerald-500/10 shrink-0 relative overflow-hidden group`}>
     <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
-    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-5 sm:h-5 relative z-10">
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" aria-hidden="true">
       <path d="M6 18L18 6" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
       <circle cx="8.5" cy="7.5" r="2" fill="#34d399" />
       <circle cx="15.5" cy="16.5" r="2" fill="#10b981" />
@@ -50,20 +50,14 @@ export default function App() {
   const t = translations[lang];
 
   useEffect(() => {
-    // 1. Arka planda verileri silinmeye karşı kilitler
     enablePersistentStorage();
-
-    // 2. URL'de paylaşılan grup var mı kontrol eder
     checkUrlForData();
-
-    // 3. Tema kontrolü
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
 
-    // 4. İLK GİRİŞ KONTROLÜ: İlk ziyarette tanıtım penceresi
     const hasSeenIntro = localStorage.getItem('denkle_has_seen_intro_v1');
     const isSharedUrl = typeof window !== 'undefined' && window.location.hash.includes('data=');
     if (!hasSeenIntro && !isSharedUrl) {
@@ -93,6 +87,7 @@ export default function App() {
                 onClick={() => setIsDrawerOpen(true)}
                 className="p-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0"
                 title={t.groupsTitle}
+                aria-label={t.groupsTitle}
               >
                 <FolderKanban className="w-4 h-4 text-teal-600 dark:text-emerald-400" />
               </button>
@@ -104,6 +99,7 @@ export default function App() {
                   ref={inputRef}
                   type="text"
                   maxLength={30}
+                  aria-label={t.groupNamePlaceholder}
                   value={currentGroup?.name || ''}
                   onChange={(e) => setGroupName(e.target.value)}
                   className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight w-full cursor-text"
@@ -112,8 +108,9 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => inputRef.current?.focus()}
-                  className="p-1 text-zinc-400 hover:text-teal-600 dark:text-zinc-500 dark:hover:text-emerald-400 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer shrink-0"
+                  className="p-1 text-zinc-500 hover:text-teal-600 dark:text-zinc-400 dark:hover:text-emerald-400 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer shrink-0"
                   title="Grup Adını Düzenle"
+                  aria-label="Grup Adını Düzenle"
                 >
                   <Pencil className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </button>
@@ -122,7 +119,12 @@ export default function App() {
 
             {/* Sağ: Kompakt Aksiyon Butonları */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <label htmlFor="currency-select" className="sr-only">
+                {lang === 'tr' ? 'Para Birimi Seçimi' : 'Currency Selection'}
+              </label>
               <select
+                id="currency-select"
+                aria-label={lang === 'tr' ? 'Para Birimi' : 'Currency'}
                 value={currentGroup?.currency || '₺'}
                 onChange={(e) => setCurrency(e.target.value)}
                 className="text-[11px] sm:text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl px-2 py-1.5 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
@@ -135,6 +137,7 @@ export default function App() {
 
               <button
                 onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
+                aria-label={lang === 'tr' ? "Switch to English" : "Türkçe'ye Geç"}
                 className="px-2 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer"
                 title="Change Language"
               >
@@ -144,6 +147,7 @@ export default function App() {
 
               <button
                 onClick={() => setIsIntroOpen(true)}
+                aria-label={t.helpBtn}
                 className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-xl transition cursor-pointer"
                 title={t.helpBtn}
               >
@@ -152,6 +156,7 @@ export default function App() {
 
               <button
                 onClick={toggleTheme}
+                aria-label={theme === 'light' ? 'Karanlık Moda Geç' : 'Aydınlık Moda Geç'}
                 className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer"
                 title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
               >
@@ -160,6 +165,7 @@ export default function App() {
 
               <button
                 onClick={() => setIsShareOpen(true)}
+                aria-label={t.shareBtn}
                 className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm shadow-emerald-500/20"
               >
                 <Share2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t.shareBtn}</span>
@@ -167,7 +173,8 @@ export default function App() {
 
               <button
                 onClick={() => setIsResetModalOpen(true)}
-                className="p-1.5 sm:p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
+                aria-label={t.resetBtn}
+                className="p-1.5 sm:p-2 text-zinc-500 hover:text-red-600 dark:text-zinc-400 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
                 title={t.resetBtn}
               >
                 <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -201,7 +208,8 @@ export default function App() {
             )}
           </h1>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-4 text-[11px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+          {/* Kontrast İyileştirmesi: text-zinc-600 dark:text-zinc-300 */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-4 text-[11px] sm:text-xs text-zinc-600 dark:text-zinc-300 font-medium">
             <span className="inline-flex items-center gap-1">
               <Zap className="w-3.5 h-3.5 text-amber-500" /> {lang === 'tr' ? 'Minimum para transferi' : 'Minimum transfers'}
             </span>
@@ -240,7 +248,7 @@ export default function App() {
         onOpenInstall={() => setIsInstallOpen(true)}
       />
 
-      {/* Modallar, Çekmeceler ve PWA Yükleme */}
+      {/* Modallar, Çekmeceler ve PWA Yükleme Banner'ı */}
       <GroupDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
       <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
