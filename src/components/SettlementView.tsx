@@ -3,13 +3,15 @@ import { ArrowRight, CheckCircle2, Sparkles, MessageCircle, FileText } from 'luc
 import confetti from 'canvas-confetti';
 import { useGroupStore } from '../hooks/useGroupStore';
 import { calculateSettlements } from '../utils/settleDebts';
+import { generateWhatsAppSummary } from '../utils/whatsappSummary';
 import { translations } from '../utils/translations';
 import { ConfirmModal } from './ConfirmModal';
 import { Toast } from './Toast';
 
 export const SettlementView: React.FC = () => {
   const { getActiveGroup, clearExpenses, setIsReceiptOpen, lang } = useGroupStore();
-  const { name: groupName, members, expenses, currency } = getActiveGroup();
+  const currentGroup = getActiveGroup();
+  const { members, expenses, currency } = currentGroup;
   const [isSettleModalOpen, setIsSettleModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -27,20 +29,7 @@ export const SettlementView: React.FC = () => {
   };
 
   const handleCopyWhatsApp = () => {
-    let text = `📊 *${groupName} — Hesap Özeti*\n`;
-    text += `💰 *Toplam Masraf:* ${totalAmount.toFixed(2)} ${currency}\n\n`;
-
-    if (settlements.length === 0) {
-      text += `✅ *Hesaplar Tamamen Dengede!* Kimsenin kimseye borcu bulunmuyor.`;
-    } else {
-      text += `🔄 *Ödeme Transferleri:*\n`;
-      settlements.forEach((s) => {
-        text += `• *${s.from}* ➡️ *${s.to}*: ${s.amount.toFixed(2)} ${currency}\n`;
-      });
-    }
-
-    text += `\n🔗 *Denkle ile anında denkleştirildi.*`;
-
+    const text = generateWhatsAppSummary(currentGroup, lang);
     navigator.clipboard.writeText(text);
     setToastMessage(t.whatsappCopied);
   };

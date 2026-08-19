@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShieldCheck, ExternalLink, Sparkles, FolderKanban, FileText, MessageCircle, Smartphone, Lock, X } from 'lucide-react';
 import { useGroupStore } from '../hooks/useGroupStore';
+import { generateWhatsAppSummary } from '../utils/whatsappSummary';
 import { translations } from '../utils/translations';
 import { DynamicSliceLogo } from '../App';
 import { Toast } from './Toast';
@@ -23,8 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenIntro }) => {
   const currentGroup = getActiveGroup();
 
   const handleCopyWhatsApp = () => {
-    const total = currentGroup.expenses.reduce((a, c) => a + c.amount, 0);
-    const text = `📊 *${currentGroup.name} — Hesap Özeti*\n💰 *Toplam Masraf:* ${total.toFixed(2)} ${currentGroup.currency}\n\n🔗 *Denkle ile kolayca hesaplandı.*`;
+    const text = generateWhatsAppSummary(currentGroup, lang);
     navigator.clipboard.writeText(text);
     setToastMsg(t.whatsappCopied);
   };
@@ -168,7 +168,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenIntro }) => {
         </div>
       </footer>
 
-      {/* Gizlilik ve Mimari Detay Modalı */}
+      {/* Gizlilik Modalı */}
       {isPrivacyOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
           <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-7 w-full max-w-md shadow-2xl border border-zinc-200/80 dark:border-zinc-800 relative">
