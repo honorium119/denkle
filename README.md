@@ -27,6 +27,15 @@
 
 ---
 
+## 👤 Geliştirici
+- **Onur Akbulut**
+
+- **Web: onurakbulut.tr**
+
+- **GitHub: @honorium119**
+
+---
+
 ## 💻 Yerel Geliştirme (Local Development)
 
 ```bash
@@ -42,9 +51,4 @@ npm install
 # Geliştirici sunucusunu başlatın
 npm run dev
 
-👤 Geliştirici
-Onur Akbulut
 
-Web: onurakbulut.tr
-
-GitHub: @honorium119
