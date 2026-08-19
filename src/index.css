@@ -12,30 +12,28 @@
     padding-bottom: env(safe-area-inset-bottom, 16px);
   }
 
-  /* iOS Safari'de inputa tıklayınca sayfanın kontrolsüz zoom yapmasını engeller */
   @media screen and (max-width: 768px) {
     input, select, textarea {
       font-size: 16px !important;
     }
   }
 
-  /* Sayı oklarını gizleme */
   input[type='number']::-webkit-outer-spin-button,
   input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
   input[type='number'] {
+    -webkit-appearance: none;
     -moz-appearance: textfield;
+    appearance: textfield;
   }
 }
 
-/* iOS Safari İvmeli Kaydırma (Momentum Scrolling) */
 .overflow-y-auto {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Jilet Gibi Fiş PDF / Yazdırma Motoru */
 @media print {
   html, body {
     background: #ffffff !important;
@@ -44,7 +42,7 @@
     padding: 0 !important;
   }
 
-  header, main, .no-print {
+  header, main, footer, .no-print {
     display: none !important;
   }
 
