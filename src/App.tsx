@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle, Pencil, FolderKanban, Sparkles, ShieldCheck, Zap } from 'lucide-react';
+import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle, Pencil, FolderKanban, ShieldCheck, Zap } from 'lucide-react';
 import { useGroupStore } from './hooks/useGroupStore';
 import { MemberManager } from './components/MemberManager';
 import { ExpenseForm } from './components/ExpenseForm';
@@ -13,12 +13,17 @@ import { ReceiptModal } from './components/ReceiptModal';
 import { InstallPrompt } from './components/InstallPrompt';
 import { translations } from './utils/translations';
 
-const DivisionBrandLogo = () => (
-  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-600 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-zinc-950 shadow-md shadow-emerald-500/20 shrink-0">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 sm:w-5 sm:h-5">
-      <circle cx="12" cy="6" r="1.8" fill="currentColor" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <circle cx="12" cy="18" r="1.8" fill="currentColor" />
+// "The Dynamic Slice" — Modern Fintech Logosu
+export const DynamicSliceLogo = ({ className = 'w-8 h-8 sm:w-9 sm:h-9' }: { className?: string }) => (
+  <div className={`${className} rounded-xl bg-gradient-to-br from-zinc-900 to-zinc-950 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center border border-emerald-500/30 shadow-md shadow-emerald-500/10 shrink-0 relative overflow-hidden group`}>
+    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent opacity-60 group-hover:opacity-100 transition-opacity" />
+    <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 sm:w-5 sm:h-5 relative z-10">
+      {/* 45 Derecelik Dinamik Kesik Çizgisi */}
+      <path d="M6 18L18 6" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Üst Sol Denge Noktası */}
+      <circle cx="8.5" cy="7.5" r="2" fill="#34d399" />
+      {/* Alt Sağ Denge Noktası */}
+      <circle cx="15.5" cy="16.5" r="2" fill="#10b981" />
     </svg>
   </div>
 );
@@ -73,7 +78,7 @@ export default function App() {
       <header className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors no-print">
         <div className="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2">
           
-          {/* Sol: Gruplar Çekmecesi + Logo + Grup Adı */}
+          {/* Sol: Gruplar Çekmecesi + Dynamic Slice Logo + Grup Adı */}
           <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
             <button
               onClick={() => setIsDrawerOpen(true)}
@@ -83,7 +88,7 @@ export default function App() {
               <FolderKanban className="w-4 h-4 text-teal-600 dark:text-emerald-400" />
             </button>
 
-            <DivisionBrandLogo />
+            <DynamicSliceLogo />
 
             <div className="flex items-center gap-1 min-w-0 max-w-[120px] sm:max-w-[240px]">
               <input
@@ -162,12 +167,12 @@ export default function App() {
         </div>
       </header>
 
-      {/* Yeni Dikkat Çekici Hero Alanı (Header Banner) */}
+      {/* Hero Karşılama Alanı (Öneri B Rozeti ile) */}
       <section className="max-w-5xl mx-auto px-4 pt-6 sm:pt-10 pb-4 text-center relative z-10 no-print">
         {/* Üst Hap Rozeti */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-teal-700 dark:text-emerald-300 text-xs font-semibold mb-3.5 backdrop-blur-md">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-          <span>{lang === 'tr' ? 'Ücretsiz, hızlı ve sunucusuz masraf bölüştürücü' : 'Free, instant and serverless expense splitter'}</span>
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-teal-700 dark:text-emerald-300 text-xs font-bold mb-3.5 backdrop-blur-md shadow-xs">
+          <ShieldCheck className="w-4 h-4 text-emerald-500" />
+          <span>{t.heroBadge}</span>
         </div>
 
         {/* Büyük Başlık */}
@@ -175,37 +180,37 @@ export default function App() {
           {lang === 'tr' ? (
             <>
               Harcamaları adil bölün.{' '}
-              <span className="bg-gradient-to-r from-teal-600 to-emerald-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-400 bg-clip-text text-transparent">
                 Borçları anında dengeleyin.
               </span>
             </>
           ) : (
             <>
               Split expenses fairly.{' '}
-              <span className="bg-gradient-to-r from-teal-600 to-emerald-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-teal-600 via-emerald-500 to-teal-400 bg-clip-text text-transparent">
                 Settle debts instantly.
               </span>
             </>
           )}
         </h1>
 
-        {/* Alt Değer Rozetleri */}
+        {/* Alt Güven & Değer Rozetleri */}
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-4 text-[11px] sm:text-xs text-zinc-500 dark:text-zinc-400 font-medium">
           <span className="inline-flex items-center gap-1">
             <Zap className="w-3.5 h-3.5 text-amber-500" /> {lang === 'tr' ? 'Minimum para transferi' : 'Minimum transfers'}
           </span>
           <span>•</span>
           <span className="inline-flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> {lang === 'tr' ? '%100 Gizli & Tarayıcıda saklanır' : '100% Private in-browser'}
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" /> {lang === 'tr' ? 'Şifre & Üyelik yok' : 'No passwords or accounts'}
           </span>
           <span>•</span>
           <span className="inline-flex items-center gap-1">
-            <Share2 className="w-3.5 h-3.5 text-teal-500" /> {lang === 'tr' ? 'QR & Link ile üyeliksiz paylaşım' : 'Zero sign-up QR sharing'}
+            <Share2 className="w-3.5 h-3.5 text-teal-500" /> {lang === 'tr' ? 'QR & Link ile anında paylaşım' : 'Instant QR & Link sharing'}
           </span>
         </div>
       </section>
 
-      {/* Ana Gövde (Elevated Cards Grid) */}
+      {/* Ana Gövde */}
       <main className="max-w-5xl mx-auto px-3 sm:px-6 pt-4 relative z-10 no-print">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           <div className="lg:col-span-7 space-y-4">

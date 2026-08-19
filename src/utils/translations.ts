@@ -61,12 +61,12 @@ export const translations = {
     receiptPerPerson: 'KİŞİ BAŞI ORTALAMA',
     printBtn: 'Yazdır / PDF Kaydet',
     receiptWatermark: 'FairSplit ile dijital olarak oluşturulmuştur.',
-    // PWA & Yükleme Bildirimi
     installTitle: 'FairSplit’i Telefona Ekle 📲',
     installDesc: 'Tek dokunuşla masrafları hesaplamak için uygulamayı ana ekranınıza ekleyin.',
     installBtn: 'Ana Ekrana Ekle',
     iosShareGuide: 'Safari’de alttaki Paylaş butonuna basıp "Ana Ekrana Ekle"yi seçin.',
-    // Tanıtım & Toast
+    // Hero & Tanıtım
+    heroBadge: 'Kayıt gerektirmez • %100 Cihazınızda ve Gizli',
     introTitle: "FairSplit'e Hoş Geldiniz! 👋",
     introSubtitle: 'Arkadaşlarınızla harcamaları bölüşmenin en hızlı ve üyeliksiz yolu.',
     introStep1Title: '1. Kişileri ve Masrafları Ekleyin',
@@ -144,20 +144,20 @@ export const translations = {
     receiptPerPerson: 'AVERAGE PER PERSON',
     printBtn: 'Print / Save PDF',
     receiptWatermark: 'Digitally generated with FairSplit.',
-    // PWA & Install
     installTitle: 'Add FairSplit to Home Screen 📲',
     installDesc: 'Add the app to your home screen for quick, one-tap expense splitting.',
     installBtn: 'Add to Home Screen',
     iosShareGuide: 'Tap the Share icon in Safari and select "Add to Home Screen".',
-    // Intro & Toast
+    // Hero & Intro
+    heroBadge: 'No sign-up required • 100% On-device & Private',
     introTitle: 'Welcome to FairSplit! 👋',
-    introSubtitle: 'The fastest, serverless way to split group expenses.',
+    introSubtitle: 'The fastest, sign-up free way to split group expenses.',
     introStep1Title: '1. Add Members & Expenses',
     introStep1Desc: 'Add your group members and log who paid and who shared the cost.',
     introStep2Title: '2. Smart Debt Settlement',
     introStep2Desc: 'Our algorithm calculates the minimum number of money transfers to settle all debts.',
     introStep3Title: '3. Share via QR or Link',
-    introStep3Desc: 'No sign-up or database! Share the live group state instantly with a single URL or QR code.',
+    introStep3Desc: 'No sign-up needed! Share the live group state instantly with a single URL or QR code.',
     introStartBtn: "Awesome, Let's Start!",
     toastDuplicateMember: 'A member with this name already exists!',
     toastMemberLength: 'Name must be at most 20 characters.',
