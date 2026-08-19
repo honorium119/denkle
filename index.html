@@ -2,6 +2,13 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Trailing Slash Kilidi: Ana siteye (onurakbulut.tr) yönlenmeyi kesin olarak engeller -->
+    <script>
+      if (window.location.pathname === '/denkle') {
+        window.location.replace('/denkle/' + window.location.search + window.location.hash);
+      }
+    </script>
     
     <!-- Sayfa Başlığı (SEO Odaklı) -->
     <title>Denkle — Akıllı Masraf & Borç Paylaştırıcı | Kayıtsız & Ücretsiz</title>
@@ -13,11 +20,11 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://onurakbulut.tr/denkle/" />
 
-    <!-- Dinamik Slice Vektör Favicon -->
+    <!-- Dinamik Slice Vektör Favicon & Apple İkonu -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 18L18 6' stroke='%2310b981' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='8.5' cy='7.5' r='2.2' fill='%2310b981'/%3E%3Ccircle cx='15.5' cy='16.5' r='2.2' fill='%2310b981'/%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href="https://onurakbulut.tr/denkle/favicon.svg" />
     
-    <!-- Mobil & PWA Ayarları (Mutlak URL Kilitlemeli) -->
+    <!-- Mobil & PWA Ayarları -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <link rel="manifest" href="https://onurakbulut.tr/denkle/manifest.json" />
     <meta name="theme-color" content="#059669" />
