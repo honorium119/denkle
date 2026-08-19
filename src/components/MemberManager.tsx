@@ -35,9 +35,9 @@ export const MemberManager: React.FC = () => {
     <>
       <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 sm:p-6 shadow-xs border border-zinc-200/70 dark:border-zinc-800 mb-6 transition-colors">
         <div className="flex items-center gap-2 mb-4">
-          <Users className="w-5 h-5 text-teal-600 dark:text-emerald-400" />
+          <Users className="w-5 h-5 text-teal-600 dark:text-emerald-400" aria-hidden="true" />
           <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
-            {t.groupMembers} <span className="text-zinc-400 text-sm font-normal">({members.length})</span>
+            {t.groupMembers} <span className="text-zinc-500 dark:text-zinc-400 text-sm font-normal">({members.length})</span>
           </h2>
         </div>
 
@@ -45,6 +45,7 @@ export const MemberManager: React.FC = () => {
           <input
             type="text"
             maxLength={20}
+            aria-label={t.addMemberPlaceholder}
             placeholder={t.addMemberPlaceholder}
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -53,9 +54,10 @@ export const MemberManager: React.FC = () => {
           <button
             type="submit"
             disabled={!name.trim()}
+            aria-label={t.add}
             className="px-4 py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 disabled:opacity-40 rounded-xl text-sm font-bold flex items-center gap-1.5 transition cursor-pointer shadow-xs"
           >
-            <Plus className="w-4 h-4" /> {t.add}
+            <Plus className="w-4 h-4" aria-hidden="true" /> {t.add}
           </button>
         </form>
 
@@ -67,15 +69,17 @@ export const MemberManager: React.FC = () => {
             >
               {member}
               <button
+                type="button"
                 onClick={() => removeMember(member)}
-                className="text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition cursor-pointer"
+                aria-label={`${member} ${lang === 'tr' ? 'üyesini sil' : 'remove member'}`}
+                className="text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition cursor-pointer p-0.5"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
             </span>
           ))}
           {members.length === 0 && (
-            <p className="text-xs text-zinc-400 dark:text-zinc-500 italic">{t.noMembers}</p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 italic">{t.noMembers}</p>
           )}
         </div>
       </div>

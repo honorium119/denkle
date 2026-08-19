@@ -19,10 +19,12 @@ export const IntroModal: React.FC<IntroModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
       <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 w-full max-w-md shadow-2xl border border-zinc-200/80 dark:border-zinc-800 relative transition-colors">
         <button
+          type="button"
           onClick={onClose}
+          aria-label={lang === 'tr' ? 'Kapat' : 'Close'}
           className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5" aria-hidden="true" />
         </button>
 
         {/* Üst Logo */}
@@ -30,39 +32,55 @@ export const IntroModal: React.FC<IntroModalProps> = ({ isOpen, onClose }) => {
           <div className="flex justify-center mb-3">
             <DynamicSliceLogo className="w-12 h-12" />
           </div>
-          <h2 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">{t.introTitle}</h2>
-          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">{t.introSubtitle}</p>
+          <h2 className="text-xl font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">
+            {t.introTitle}
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 mt-1">
+            {t.introSubtitle}
+          </p>
         </div>
 
         {/* 3 Adım */}
         <div className="space-y-3 mb-6">
           <div className="flex gap-3.5 items-start p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60">
             <div className="w-9 h-9 rounded-xl bg-teal-50 dark:bg-emerald-950/60 text-teal-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-              <Users className="w-4 h-4" />
+              <Users className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200">{t.introStep1Title}</h4>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 leading-relaxed">{t.introStep1Desc}</p>
+              <div className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                {t.introStep1Title}
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-0.5 leading-relaxed">
+                {t.introStep1Desc}
+              </p>
             </div>
           </div>
 
           <div className="flex gap-3.5 items-start p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60">
             <div className="w-9 h-9 rounded-xl bg-teal-50 dark:bg-emerald-950/60 text-teal-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-              <ArrowRightLeft className="w-4 h-4" />
+              <ArrowRightLeft className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200">{t.introStep2Title}</h4>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 leading-relaxed">{t.introStep2Desc}</p>
+              <div className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                {t.introStep2Title}
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-0.5 leading-relaxed">
+                {t.introStep2Desc}
+              </p>
             </div>
           </div>
 
           <div className="flex gap-3.5 items-start p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/60 dark:border-zinc-700/60">
             <div className="w-9 h-9 rounded-xl bg-teal-50 dark:bg-emerald-950/60 text-teal-600 dark:text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
-              <QrCode className="w-4 h-4" />
+              <QrCode className="w-4 h-4" aria-hidden="true" />
             </div>
             <div>
-              <h4 className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200">{t.introStep3Title}</h4>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 leading-relaxed">{t.introStep3Desc}</p>
+              <div className="text-xs sm:text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                {t.introStep3Title}
+              </div>
+              <p className="text-xs text-zinc-600 dark:text-zinc-300 mt-0.5 leading-relaxed">
+                {t.introStep3Desc}
+              </p>
             </div>
           </div>
         </div>

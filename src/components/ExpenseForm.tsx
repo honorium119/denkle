@@ -26,7 +26,6 @@ export const ExpenseForm: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
 
-  // Düzenleme moduna girildiğinde form verilerini doldur
   useEffect(() => {
     if (editingExpenseId) {
       const exp = expenses.find((e) => e.id === editingExpenseId);
@@ -137,17 +136,19 @@ export const ExpenseForm: React.FC = () => {
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Receipt className="w-5 h-5 text-teal-600 dark:text-emerald-400" />
+            <Receipt className="w-5 h-5 text-teal-600 dark:text-emerald-400" aria-hidden="true" />
             <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
               {editingExpenseId ? t.editExpense : t.newExpense}
             </h2>
           </div>
           {editingExpenseId && (
             <button
+              type="button"
               onClick={handleCancelEdit}
-              className="text-xs font-semibold text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 flex items-center gap-1 transition cursor-pointer"
+              aria-label={t.cancelEdit}
+              className="text-xs font-semibold text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 flex items-center gap-1 transition cursor-pointer"
             >
-              <X className="w-3.5 h-3.5" /> {t.cancelEdit}
+              <X className="w-3.5 h-3.5" aria-hidden="true" /> {t.cancelEdit}
             </button>
           )}
         </div>
@@ -155,8 +156,11 @@ export const ExpenseForm: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">{t.description}</label>
+              <label htmlFor="expense-desc" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+                {t.description}
+              </label>
               <input
+                id="expense-desc"
                 type="text"
                 maxLength={40}
                 placeholder={t.descPlaceholder}
@@ -167,10 +171,11 @@ export const ExpenseForm: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">
+              <label htmlFor="expense-amount" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                 {t.amount} ({currency})
               </label>
               <input
+                id="expense-amount"
                 type="number"
                 step="0.01"
                 min="0.01"
@@ -188,14 +193,15 @@ export const ExpenseForm: React.FC = () => {
 
           {/* "Kim Ödedi" Seçim Menüsü */}
           <div className="relative" ref={dropdownRef}>
-            <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">{t.whoPaid}</label>
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">{t.whoPaid}</label>
             <button
               type="button"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              aria-label={`${t.whoPaid}: ${members.includes(payer) ? payer : members[0] || ''}`}
               className="w-full flex items-center justify-between px-3.5 py-2.5 text-sm bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-emerald-500/20 focus:border-teal-600 dark:focus:border-emerald-400 transition cursor-pointer"
             >
               <span>{members.includes(payer) ? payer : members[0] || ''}</span>
-              <ChevronDown className={`w-4 h-4 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180 text-teal-600 dark:text-emerald-400' : ''}`} />
+              <ChevronDown className={`w-4 h-4 text-zinc-500 dark:text-zinc-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180 text-teal-600 dark:text-emerald-400' : ''}`} aria-hidden="true" />
             </button>
 
             {isDropdownOpen && (
@@ -211,6 +217,7 @@ export const ExpenseForm: React.FC = () => {
                           setPayer(m);
                           setIsDropdownOpen(false);
                         }}
+                        aria-label={m}
                         className={`w-full flex items-center justify-between px-3 py-2 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer ${
                           isSelected
                             ? 'bg-teal-50 dark:bg-emerald-950/50 text-teal-700 dark:text-emerald-300 font-bold'
@@ -218,7 +225,7 @@ export const ExpenseForm: React.FC = () => {
                         }`}
                       >
                         <span>{m}</span>
-                        {isSelected && <Check className="w-4 h-4 text-teal-600 dark:text-emerald-400" />}
+                        {isSelected && <Check className="w-4 h-4 text-teal-600 dark:text-emerald-400" aria-hidden="true" />}
                       </button>
                     );
                   })}
@@ -228,7 +235,7 @@ export const ExpenseForm: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-2">{t.splitBetween}</label>
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-2">{t.splitBetween}</label>
             <div className="flex flex-wrap gap-2">
               {members.map((member) => {
                 const isSelected = selectedParticipants.includes(member);
@@ -237,10 +244,11 @@ export const ExpenseForm: React.FC = () => {
                     type="button"
                     key={member}
                     onClick={() => toggleParticipant(member)}
+                    aria-label={`${member} ${isSelected ? 'seçildi' : 'seçilmedi'}`}
                     className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer ${
                       isSelected
                         ? 'bg-teal-50 dark:bg-emerald-950/50 border border-teal-200 dark:border-emerald-800/80 text-teal-800 dark:text-emerald-300 font-bold'
-                        : 'bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-750'
+                        : 'bg-zinc-50 dark:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700/80 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-750'
                     }`}
                   >
                     {isSelected ? '✓ ' : '+ '}
@@ -253,9 +261,10 @@ export const ExpenseForm: React.FC = () => {
 
           <button
             type="submit"
+            aria-label={editingExpenseId ? t.updateExpense : t.saveExpense}
             className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
           >
-            {editingExpenseId ? <Sparkles className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+            {editingExpenseId ? <Sparkles className="w-4 h-4" aria-hidden="true" /> : <Plus className="w-4 h-4" aria-hidden="true" />}
             {editingExpenseId ? t.updateExpense : t.saveExpense}
           </button>
         </form>

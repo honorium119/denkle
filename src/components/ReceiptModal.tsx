@@ -51,16 +51,16 @@ export const ReceiptModal: React.FC = () => {
           {/* Üst Logo ve Başlık */}
           <div className="text-center pb-5 border-b border-dashed border-zinc-300">
             <div className="w-10 h-10 rounded-xl bg-zinc-900 text-white flex items-center justify-center mx-auto mb-2 font-sans font-black text-lg shadow-sm">
-              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+              <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
                 <path d="M6 18L18 6" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
                 <circle cx="8.5" cy="7.5" r="2" fill="#34d399" />
                 <circle cx="15.5" cy="16.5" r="2" fill="#10b981" />
               </svg>
             </div>
             <h2 className="font-sans font-black text-xl tracking-tight text-zinc-900 uppercase">DENKLE</h2>
-            <p className="text-[11px] font-medium text-zinc-500 font-sans tracking-wide mt-0.5">{groupName}</p>
+            <p className="text-[11px] font-medium text-zinc-600 font-sans tracking-wide mt-0.5">{groupName}</p>
 
-            <div className="flex justify-between items-center text-[10px] text-zinc-400 mt-4 font-mono">
+            <div className="flex justify-between items-center text-[10px] text-zinc-500 mt-4 font-mono">
               <span>{t.receiptNo}: #{receiptId}</span>
               <span>{currentDate}</span>
             </div>
@@ -68,19 +68,19 @@ export const ReceiptModal: React.FC = () => {
 
           {/* Harcama Kalemleri Listesi */}
           <div className="py-4 border-b border-dashed border-zinc-300">
-            <div className="text-[11px] font-bold text-zinc-400 font-sans tracking-wider mb-2.5 uppercase">
+            <div className="text-[11px] font-bold text-zinc-600 font-sans tracking-wider mb-2.5 uppercase">
               {t.receiptItems} ({expenses.length})
             </div>
 
             {expenses.length === 0 ? (
-              <p className="text-xs text-zinc-400 italic">-- {t.noExpenses} --</p>
+              <p className="text-xs text-zinc-500 italic">-- {t.noExpenses} --</p>
             ) : (
               <div className="space-y-2">
                 {expenses.map((exp) => (
                   <div key={exp.id} className="flex justify-between items-baseline text-xs">
                     <div className="min-w-0 flex-1 pr-2">
                       <div className="font-bold text-zinc-800 truncate">{exp.description}</div>
-                      <div className="text-[10px] text-zinc-500">
+                      <div className="text-[10px] text-zinc-600">
                         {exp.payer} • {exp.participants.length} {t.peopleSplit}
                       </div>
                     </div>
@@ -95,7 +95,7 @@ export const ReceiptModal: React.FC = () => {
 
           {/* Genel Toplam ve İstatistikler */}
           <div className="py-3.5 border-b border-dashed border-zinc-300 space-y-1.5 text-xs">
-            <div className="flex justify-between text-zinc-600">
+            <div className="flex justify-between text-zinc-700">
               <span>{t.receiptPerPerson}</span>
               <span className="font-mono">{averagePerPerson.toFixed(2)} {currency}</span>
             </div>
@@ -107,12 +107,12 @@ export const ReceiptModal: React.FC = () => {
 
           {/* Borç Kapatma / Transfer Özeti */}
           <div className="py-4 border-b border-dashed border-zinc-300">
-            <div className="text-[11px] font-bold text-zinc-400 font-sans tracking-wider mb-2.5 uppercase">
+            <div className="text-[11px] font-bold text-zinc-600 font-sans tracking-wider mb-2.5 uppercase">
               {t.receiptTransfers}
             </div>
 
             {settlements.length === 0 ? (
-              <p className="text-xs text-emerald-600 font-sans font-semibold">✓ {t.allSettled}</p>
+              <p className="text-xs text-emerald-700 font-sans font-semibold">✓ {t.allSettled}</p>
             ) : (
               <div className="space-y-2">
                 {settlements.map((tx, idx) => (
@@ -122,7 +122,7 @@ export const ReceiptModal: React.FC = () => {
                   >
                     <div className="flex items-center gap-1.5 font-semibold text-zinc-700 min-w-0">
                       <span className="font-bold text-zinc-900 truncate max-w-[80px]">{tx.from}</span>
-                      <ArrowRight className="w-3 h-3 text-teal-600 shrink-0" />
+                      <ArrowRight className="w-3 h-3 text-teal-600 shrink-0" aria-hidden="true" />
                       <span className="font-bold text-zinc-900 truncate max-w-[80px]">{tx.to}</span>
                     </div>
                     <span className="font-mono font-bold text-zinc-900 shrink-0 pl-2">
@@ -141,7 +141,7 @@ export const ReceiptModal: React.FC = () => {
                 <QRCodeSVG value={shareUrl} size={84} />
               </div>
             </div>
-            <p className="text-[10px] text-zinc-400 font-sans">{t.receiptWatermark}</p>
+            <p className="text-[10px] text-zinc-500 font-sans">{t.receiptWatermark}</p>
           </div>
         </div>
 
@@ -150,6 +150,7 @@ export const ReceiptModal: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsReceiptOpen(false)}
+            aria-label={t.cancel}
             className="flex-1 py-3 bg-zinc-900/80 hover:bg-zinc-800 text-white font-bold rounded-2xl text-xs sm:text-sm transition cursor-pointer border border-zinc-700 backdrop-blur-md"
           >
             {t.cancel}
@@ -157,17 +158,20 @@ export const ReceiptModal: React.FC = () => {
           <button
             type="button"
             onClick={() => window.print()}
+            aria-label={t.printBtn}
             className="flex-1 py-3 bg-teal-600 hover:bg-teal-500 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-lg shadow-teal-600/30"
           >
-            <Printer className="w-4 h-4" /> {t.printBtn}
+            <Printer className="w-4 h-4" aria-hidden="true" /> {t.printBtn}
           </button>
         </div>
 
         <button
+          type="button"
           onClick={() => setIsReceiptOpen(false)}
+          aria-label={lang === 'tr' ? 'Kapat' : 'Close'}
           className="absolute -top-3 -right-3 sm:-right-4 bg-zinc-900 text-zinc-400 hover:text-white p-2 rounded-full border border-zinc-700 transition cursor-pointer no-print shadow-md"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4" aria-hidden="true" />
         </button>
       </div>
     </div>

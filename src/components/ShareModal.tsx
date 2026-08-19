@@ -37,29 +37,33 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
       <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl border border-zinc-200/80 dark:border-zinc-800 text-center relative transition-colors">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 p-1 transition cursor-pointer"
+          aria-label={lang === 'tr' ? 'Kapat' : 'Close'}
+          className="absolute right-4 top-4 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition cursor-pointer"
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5" aria-hidden="true" />
         </button>
 
         <div className="w-12 h-12 bg-teal-50 dark:bg-emerald-950/50 text-teal-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
-          <Share2 className="w-6 h-6" />
+          <Share2 className="w-6 h-6" aria-hidden="true" />
         </div>
 
-        <h3 className="text-lg font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">{t.shareTitle}</h3>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">{t.shareDesc}</p>
+        <h2 className="text-lg font-extrabold text-zinc-900 dark:text-zinc-100 tracking-tight">{t.shareTitle}</h2>
+        <p className="text-xs text-zinc-600 dark:text-zinc-300 mb-6 leading-relaxed">{t.shareDesc}</p>
 
         <div className="flex justify-center p-4 bg-white rounded-2xl mb-5 border border-zinc-200/80 dark:border-zinc-800 shadow-xs inline-block mx-auto">
           <QRCodeSVG value={shareUrl} size={170} />
         </div>
 
         <button
+          type="button"
           onClick={handleCopy}
+          aria-label={copied ? t.copied : t.copyLink}
           className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
         >
-          {copied ? <Check className="w-4 h-4 text-white dark:text-zinc-950" /> : <Copy className="w-4 h-4" />}
-          {copied ? t.copied : t.copyLink}
+          {copied ? <Check className="w-4 h-4 text-white dark:text-zinc-950" aria-hidden="true" /> : <Copy className="w-4 h-4" aria-hidden="true" />}
+          <span>{copied ? t.copied : t.copyLink}</span>
         </button>
       </div>
     </div>
