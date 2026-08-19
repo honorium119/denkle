@@ -10,6 +10,7 @@ import { ConfirmModal } from './components/ConfirmModal';
 import { IntroModal } from './components/IntroModal';
 import { GroupDrawer } from './components/GroupDrawer';
 import { ReceiptModal } from './components/ReceiptModal';
+import { InstallPrompt } from './components/InstallPrompt';
 import { translations } from './utils/translations';
 
 const DivisionBrandLogo = () => (
@@ -65,7 +66,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 pb-16 overflow-x-hidden transition-colors duration-200">
       {/* Üst Menü Çubuğu */}
-      <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors">
+      <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors no-print">
         <div className="max-w-4xl mx-auto px-2.5 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-3">
           
           {/* Sol: Gruplar Çekmecesi + Logo + Grup Adı + Kalem */}
@@ -158,7 +159,7 @@ export default function App() {
       </header>
 
       {/* Ana Gövde */}
-      <main className="max-w-4xl mx-auto px-3 sm:px-4 pt-4 sm:pt-8">
+      <main className="max-w-4xl mx-auto px-3 sm:px-4 pt-4 sm:pt-8 no-print">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           <div className="lg:col-span-7">
             <MemberManager />
@@ -174,11 +175,12 @@ export default function App() {
         </div>
       </main>
 
-      {/* Modallar ve Çekmeceler */}
+      {/* Modallar, Çekmeceler ve PWA Yükleme Banner'ı */}
       <GroupDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
       <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
       <ReceiptModal />
+      <InstallPrompt />
 
       <ConfirmModal
         isOpen={isResetModalOpen}

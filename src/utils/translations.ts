@@ -42,7 +42,6 @@ export const translations = {
     resetBtn: 'Grubu Sıfırla',
     groupNamePlaceholder: 'Grup Adı',
     helpBtn: 'Nasıl Çalışır?',
-    // Çoklu Grup
     groupsTitle: 'Gruplarım',
     createNewGroup: 'Yeni Grup Oluştur',
     newGroupNamePlaceholder: 'Grup adı (örn. Roma Gezisi)',
@@ -62,6 +61,11 @@ export const translations = {
     receiptPerPerson: 'KİŞİ BAŞI ORTALAMA',
     printBtn: 'Yazdır / PDF Kaydet',
     receiptWatermark: 'FairSplit ile dijital olarak oluşturulmuştur.',
+    // PWA & Yükleme Bildirimi
+    installTitle: 'FairSplit’i Telefona Ekle 📲',
+    installDesc: 'Tek dokunuşla masrafları hesaplamak için uygulamayı ana ekranınıza ekleyin.',
+    installBtn: 'Ana Ekrana Ekle',
+    iosShareGuide: 'Safari’de alttaki Paylaş butonuna basıp "Ana Ekrana Ekle"yi seçin.',
     // Tanıtım & Toast
     introTitle: "FairSplit'e Hoş Geldiniz! 👋",
     introSubtitle: 'Arkadaşlarınızla harcamaları bölüşmenin en hızlı ve üyeliksiz yolu.',
@@ -121,7 +125,6 @@ export const translations = {
     resetBtn: 'Reset Group',
     groupNamePlaceholder: 'Group Name',
     helpBtn: 'How it works?',
-    // Multi Group & Receipt
     groupsTitle: 'My Groups',
     createNewGroup: 'Create New Group',
     newGroupNamePlaceholder: 'Group name (e.g. Rome Trip)',
@@ -141,6 +144,11 @@ export const translations = {
     receiptPerPerson: 'AVERAGE PER PERSON',
     printBtn: 'Print / Save PDF',
     receiptWatermark: 'Digitally generated with FairSplit.',
+    // PWA & Install
+    installTitle: 'Add FairSplit to Home Screen 📲',
+    installDesc: 'Add the app to your home screen for quick, one-tap expense splitting.',
+    installBtn: 'Add to Home Screen',
+    iosShareGuide: 'Tap the Share icon in Safari and select "Add to Home Screen".',
     // Intro & Toast
     introTitle: 'Welcome to FairSplit! 👋',
     introSubtitle: 'The fastest, serverless way to split group expenses.',

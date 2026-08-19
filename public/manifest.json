@@ -1,0 +1,17 @@
+{
+  "short_name": "FairSplit",
+  "name": "FairSplit — Akıllı Masraf Paylaştırıcı",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='128' fill='%23059669'/%3E%3Ccircle cx='256' cy='128' r='38' fill='white'/%3E%3Cline x1='106' y1='256' x2='406' y2='256' stroke='white' stroke-width='48' stroke-linecap='round'/%3E%3Ccircle cx='256' cy='384' r='38' fill='white'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#09090b",
+  "theme_color": "#059669",
+  "display": "standalone",
+  "orientation": "portrait"
+}
