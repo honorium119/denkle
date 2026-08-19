@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(), // Stillerin doğru derlenmesi için zorunludur
+    tailwindcss(),
   ],
   base: '/denkle/',
 });
