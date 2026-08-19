@@ -116,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenIntro }) => {
               </ul>
             </div>
 
-            {/* Gizlilik & Bilgi */}
+            {/* Gizlilik & GitHub Linki */}
             <div className="md:col-span-4 space-y-3">
               <h4 className="text-xs font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-wider">
                 {t.footerColPrivacy}
@@ -140,9 +140,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenIntro }) => {
 
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/honorium119/denkle"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:text-teal-600 dark:hover:text-emerald-400 transition-colors"
                 >
                   <GithubIcon />
