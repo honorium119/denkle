@@ -19,6 +19,7 @@ interface GroupState {
   theme: 'light' | 'dark';
   lang: Language;
   editingExpenseId: string | null;
+  isReceiptOpen: boolean;
 
   // Grup Eylemleri
   getActiveGroup: () => GroupItem;
@@ -29,6 +30,7 @@ interface GroupState {
   setCurrency: (currency: string) => void;
   setLang: (lang: Language) => void;
   toggleTheme: () => void;
+  setIsReceiptOpen: (isOpen: boolean) => void;
 
   // Masraf ve Üye Eylemleri
   addMember: (name: string) => void;
@@ -60,6 +62,7 @@ export const useGroupStore = create<GroupState>()(
       theme: 'light',
       lang: 'tr',
       editingExpenseId: null,
+      isReceiptOpen: false,
 
       getActiveGroup: () => {
         const { groups, activeGroupId } = get();
@@ -113,6 +116,7 @@ export const useGroupStore = create<GroupState>()(
       },
 
       setLang: (lang) => set({ lang }),
+      setIsReceiptOpen: (isReceiptOpen) => set({ isReceiptOpen }),
 
       toggleTheme: () => {
         const nextTheme = get().theme === 'light' ? 'dark' : 'light';

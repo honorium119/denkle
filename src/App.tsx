@@ -9,9 +9,9 @@ import { ShareModal } from './components/ShareModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { IntroModal } from './components/IntroModal';
 import { GroupDrawer } from './components/GroupDrawer';
+import { ReceiptModal } from './components/ReceiptModal';
 import { translations } from './utils/translations';
 
-// Sade & Anlamlı Bölme (÷) Sembolü Logosu
 const DivisionBrandLogo = () => (
   <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-600 dark:bg-emerald-500 flex items-center justify-center text-white dark:text-zinc-950 shadow-sm shadow-teal-600/20 shrink-0">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 sm:w-5 sm:h-5">
@@ -65,7 +65,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 pb-16 overflow-x-hidden transition-colors duration-200">
       {/* Üst Menü Çubuğu */}
-      <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors no-print">
+      <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors">
         <div className="max-w-4xl mx-auto px-2.5 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-3">
           
           {/* Sol: Gruplar Çekmecesi + Logo + Grup Adı + Kalem */}
@@ -143,7 +143,7 @@ export default function App() {
               onClick={() => setIsShareOpen(true)}
               className="px-2 py-1 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-xs"
             >
-              <Share2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span className="hidden sm:inline">{t.shareBtn}</span>
+              <Share2 className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{t.shareBtn}</span>
             </button>
 
             <button
@@ -158,7 +158,7 @@ export default function App() {
       </header>
 
       {/* Ana Gövde */}
-      <main className="max-w-4xl mx-auto px-3 sm:px-4 pt-4 sm:pt-8 no-print">
+      <main className="max-w-4xl mx-auto px-3 sm:px-4 pt-4 sm:pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           <div className="lg:col-span-7">
             <MemberManager />
@@ -178,6 +178,7 @@ export default function App() {
       <GroupDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
       <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
+      <ReceiptModal />
 
       <ConfirmModal
         isOpen={isResetModalOpen}

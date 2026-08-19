@@ -6,13 +6,8 @@ import { calculateSettlements } from '../utils/settleDebts';
 import { encodeGroupData } from '../utils/urlState';
 import { translations } from '../utils/translations';
 
-interface ReceiptModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) => {
-  const { getActiveGroup, lang } = useGroupStore();
+export const ReceiptModal: React.FC = () => {
+  const { getActiveGroup, isReceiptOpen, setIsReceiptOpen, lang } = useGroupStore();
   const currentGroup = getActiveGroup();
   const { name: groupName, currency, members, expenses } = currentGroup;
   const settlements = calculateSettlements(members, expenses);
@@ -20,7 +15,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) =
   const averagePerPerson = members.length > 0 ? totalAmount / members.length : 0;
   const t = translations[lang];
 
-  if (!isOpen) return null;
+  if (!isReceiptOpen) return null;
 
   const encodedData = encodeGroupData({
     groupName,
@@ -45,9 +40,9 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) =
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 backdrop-blur-xs p-4 animate-in fade-in duration-200 overflow-y-auto">
+    <div className="receipt-overlay fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 backdrop-blur-xs p-4 animate-in fade-in duration-200 overflow-y-auto">
       {/* Modal Kutusu */}
-      <div className="relative w-full max-w-md my-8 flex flex-col items-center">
+      <div className="receipt-wrapper relative w-full max-w-md my-8 flex flex-col items-center">
         
         {/* Yazdırılabilir Termal Fiş Kartı */}
         <div
@@ -86,7 +81,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) =
                         {exp.payer} • {exp.participants.length} {t.peopleSplit}
                       </div>
                     </div>
-                    <div className="font-bold text-zinc-900 shrink-0">
+                    <div className="font-bold text-zinc-900 shrink-0 font-mono">
                       {exp.amount.toFixed(2)} {currency}
                     </div>
                   </div>
@@ -99,7 +94,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) =
           <div className="py-3.5 border-b border-dashed border-zinc-300 space-y-1.5 text-xs">
             <div className="flex justify-between text-zinc-600">
               <span>{t.receiptPerPerson}</span>
-              <span>{averagePerPerson.toFixed(2)} {currency}</span>
+              <span className="font-mono">{averagePerPerson.toFixed(2)} {currency}</span>
             </div>
             <div className="flex justify-between items-center text-sm font-sans font-extrabold text-zinc-950 pt-1">
               <span>{t.receiptTotal}</span>
@@ -151,7 +146,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) =
         <div className="w-full flex gap-2.5 mt-4 no-print">
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => setIsReceiptOpen(false)}
             className="flex-1 py-3 bg-zinc-900/80 hover:bg-zinc-800 text-white font-bold rounded-2xl text-xs sm:text-sm transition cursor-pointer border border-zinc-700 backdrop-blur-md"
           >
             {t.cancel}
@@ -167,7 +162,7 @@ export const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) =
 
         {/* Kapat Çarpı Butonu */}
         <button
-          onClick={onClose}
+          onClick={() => setIsReceiptOpen(false)}
           className="absolute -top-3 -right-3 sm:-right-4 bg-zinc-900 text-zinc-400 hover:text-white p-2 rounded-full border border-zinc-700 transition cursor-pointer no-print shadow-md"
         >
           <X className="w-4 h-4" />
