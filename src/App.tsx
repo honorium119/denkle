@@ -13,6 +13,7 @@ import { ReceiptModal } from './components/ReceiptModal';
 import { InstallPrompt } from './components/InstallPrompt';
 import { Footer } from './components/Footer';
 import { translations } from './utils/translations';
+import { enablePersistentStorage } from './utils/storagePersistence';
 
 // "The Dynamic Slice" — Modern Fintech Logosu
 export const DynamicSliceLogo = ({ className = 'w-8 h-8 sm:w-9 sm:h-9' }: { className?: string }) => (
@@ -48,21 +49,29 @@ export default function App() {
   const t = translations[lang];
 
   useEffect(() => {
+    // 1. Arka planda verileri silinmeye karşı kilitler
+    enablePersistentStorage();
+
+    // 2. URL'de paylaşılan grup var mı kontrol eder
     checkUrlForData();
+
+    // 3. Tema kontrolü
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
 
-    const hasSeenIntro = localStorage.getItem('fairsplit-seen-intro-v1');
-    if (!hasSeenIntro) {
+    // 4. İLK GİRİŞ KONTROLÜ: Kullanıcı siteye ilk defa giriyorsa ve paylaşılan linkle gelmediyse tanıtımı aç
+    const hasSeenIntro = localStorage.getItem('denkle_has_seen_intro_v1');
+    const isSharedUrl = typeof window !== 'undefined' && window.location.hash.includes('data=');
+    if (!hasSeenIntro && !isSharedUrl) {
       setIsIntroOpen(true);
     }
   }, [checkUrlForData, theme]);
 
   const handleCloseIntro = () => {
-    localStorage.setItem('fairsplit-seen-intro-v1', 'true');
+    localStorage.setItem('denkle_has_seen_intro_v1', 'true');
     setIsIntroOpen(false);
   };
 
@@ -94,7 +103,7 @@ export default function App() {
                   ref={inputRef}
                   type="text"
                   maxLength={30}
-                  value={currentGroup.name}
+                  value={currentGroup?.name || ''}
                   onChange={(e) => setGroupName(e.target.value)}
                   className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight w-full cursor-text"
                   placeholder={t.groupNamePlaceholder}
@@ -113,7 +122,7 @@ export default function App() {
             {/* Sağ: Kompakt Aksiyon Butonları */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <select
-                value={currentGroup.currency}
+                value={currentGroup?.currency || '₺'}
                 onChange={(e) => setCurrency(e.target.value)}
                 className="text-[11px] sm:text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl px-2 py-1.5 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
               >
