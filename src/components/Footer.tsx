@@ -8,6 +8,7 @@ import { Toast } from './Toast';
 
 interface FooterProps {
   onOpenIntro: () => void;
+  onOpenInstall?: () => void;
 }
 
 const GithubIcon = () => (
@@ -16,7 +17,7 @@ const GithubIcon = () => (
   </svg>
 );
 
-export const Footer: React.FC<FooterProps> = ({ onOpenIntro }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenIntro, onOpenInstall }) => {
   const { lang, setIsReceiptOpen, getActiveGroup } = useGroupStore();
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
@@ -104,9 +105,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenIntro }) => {
                 </li>
                 <li>
                   <button
-                    onClick={() => {
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
+                    onClick={() => onOpenInstall?.()}
                     className="flex items-center gap-2 hover:text-teal-600 dark:hover:text-emerald-400 transition cursor-pointer text-left"
                   >
                     <Smartphone className="w-3.5 h-3.5 text-amber-500 shrink-0" />

@@ -45,6 +45,7 @@ export default function App() {
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [isIntroOpen, setIsIntroOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isInstallOpen, setIsInstallOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const t = translations[lang];
 
@@ -62,7 +63,7 @@ export default function App() {
       document.documentElement.classList.remove('dark');
     }
 
-    // 4. İLK GİRİŞ KONTROLÜ: Kullanıcı siteye ilk defa giriyorsa ve paylaşılan linkle gelmediyse tanıtımı aç
+    // 4. İLK GİRİŞ KONTROLÜ: İlk ziyarette tanıtım penceresi
     const hasSeenIntro = localStorage.getItem('denkle_has_seen_intro_v1');
     const isSharedUrl = typeof window !== 'undefined' && window.location.hash.includes('data=');
     if (!hasSeenIntro && !isSharedUrl) {
@@ -234,14 +235,21 @@ export default function App() {
       </div>
 
       {/* Modern SaaS Footer */}
-      <Footer onOpenIntro={() => setIsIntroOpen(true)} />
+      <Footer
+        onOpenIntro={() => setIsIntroOpen(true)}
+        onOpenInstall={() => setIsInstallOpen(true)}
+      />
 
-      {/* Modallar, Çekmeceler ve PWA Yükleme Banner'ı */}
+      {/* Modallar, Çekmeceler ve PWA Yükleme */}
       <GroupDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
       <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
       <ReceiptModal />
-      <InstallPrompt />
+      
+      <InstallPrompt
+        isOpenModal={isInstallOpen}
+        onCloseModal={() => setIsInstallOpen(false)}
+      />
 
       <ConfirmModal
         isOpen={isResetModalOpen}
