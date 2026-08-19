@@ -5,7 +5,6 @@
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Sayı girişlerindeki okları gizler */
 @layer base {
   body {
     font-family: var(--font-sans);
@@ -17,5 +16,32 @@
   }
   input[type='number'] {
     -moz-appearance: textfield;
+  }
+}
+
+/* Fiş PDF / Yazdırma Optimizasyonu */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px;
+    box-shadow: none !important;
+    border: 1px solid #e4e4e7 !important;
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
   }
 }

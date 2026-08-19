@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { ArrowRight, CheckCircle2, Sparkles, MessageCircle, Printer } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Sparkles, MessageCircle, FileText } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useGroupStore } from '../hooks/useGroupStore';
 import { calculateSettlements } from '../utils/settleDebts';
 import { translations } from '../utils/translations';
 import { ConfirmModal } from './ConfirmModal';
+import { ReceiptModal } from './ReceiptModal';
 import { Toast } from './Toast';
 
 export const SettlementView: React.FC = () => {
   const { getActiveGroup, clearExpenses, lang } = useGroupStore();
   const { name: groupName, members, expenses, currency } = getActiveGroup();
   const [isSettleModalOpen, setIsSettleModalOpen] = useState(false);
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const settlements = calculateSettlements(members, expenses);
@@ -26,7 +28,6 @@ export const SettlementView: React.FC = () => {
     clearExpenses();
   };
 
-  // WhatsApp Formatlı Metin Üretici
   const handleCopyWhatsApp = () => {
     let text = `📊 *${groupName} — Hesap Özeti*\n`;
     text += `💰 *Toplam Masraf:* ${totalAmount.toFixed(2)} ${currency}\n\n`;
@@ -44,11 +45,6 @@ export const SettlementView: React.FC = () => {
 
     navigator.clipboard.writeText(text);
     setToastMessage(t.whatsappCopied);
-  };
-
-  // PDF / Yazdırma Motoru
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -97,7 +93,7 @@ export const SettlementView: React.FC = () => {
               </div>
             ))}
 
-            {/* Dışa Aktarma Aksiyonları (WhatsApp & PDF) */}
+            {/* Dışa Aktarma Aksiyonları (WhatsApp & Fiş/PDF) */}
             <div className="grid grid-cols-2 gap-2 pt-2">
               <button
                 onClick={handleCopyWhatsApp}
@@ -107,10 +103,10 @@ export const SettlementView: React.FC = () => {
               </button>
 
               <button
-                onClick={handlePrint}
+                onClick={() => setIsReceiptModalOpen(true)}
                 className="py-2 px-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition cursor-pointer border border-zinc-200 dark:border-zinc-700"
               >
-                <Printer className="w-3.5 h-3.5" /> {t.exportPdf}
+                <FileText className="w-3.5 h-3.5 text-teal-600 dark:text-emerald-400" /> {t.exportPdf}
               </button>
             </div>
 
@@ -133,6 +129,11 @@ export const SettlementView: React.FC = () => {
         cancelText={t.cancel}
         onConfirm={handleSettleConfirm}
         onClose={() => setIsSettleModalOpen(false)}
+      />
+
+      <ReceiptModal
+        isOpen={isReceiptModalOpen}
+        onClose={() => setIsReceiptModalOpen(false)}
       />
 
       {toastMessage && (

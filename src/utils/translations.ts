@@ -42,7 +42,7 @@ export const translations = {
     resetBtn: 'Grubu Sıfırla',
     groupNamePlaceholder: 'Grup Adı',
     helpBtn: 'Nasıl Çalışır?',
-    // Çoklu Grup & Dışa Aktarma
+    // Çoklu Grup & Fiş / PDF
     groupsTitle: 'Gruplarım',
     createNewGroup: 'Yeni Grup Oluştur',
     newGroupNamePlaceholder: 'Grup adı (örn. Roma Gezisi)',
@@ -50,7 +50,16 @@ export const translations = {
     activeGroup: 'Aktif Grup',
     whatsappShare: "WhatsApp'a Kopyala",
     whatsappCopied: 'WhatsApp Özeti Kopyalandı!',
-    exportPdf: 'PDF / Fiş Çıkar',
+    exportPdf: 'Fiş Görüntüle / PDF',
+    receiptTitle: 'Hesap & Harcama Fişi',
+    receiptNo: 'FİŞ NO',
+    receiptDate: 'TARİH',
+    receiptItems: 'HARCAMA KALEMLERİ',
+    receiptTransfers: 'ÖDEME & BORÇ TRANSFERLERİ',
+    receiptTotal: 'GENEL TOPLAM',
+    receiptPerPerson: 'KİŞİ BAŞI ORTALAMA',
+    printBtn: 'Yazdır / PDF Kaydet',
+    receiptWatermark: 'FairSplit ile dijital olarak oluşturulmuştur.',
     // Tanıtım & Toast
     introTitle: "FairSplit'e Hoş Geldiniz! 👋",
     introSubtitle: 'Arkadaşlarınızla harcamaları bölüşmenin en hızlı ve üyeliksiz yolu.',
@@ -110,7 +119,7 @@ export const translations = {
     resetBtn: 'Reset Group',
     groupNamePlaceholder: 'Group Name',
     helpBtn: 'How it works?',
-    // Multi Group & Export
+    // Multi Group & Receipt
     groupsTitle: 'My Groups',
     createNewGroup: 'Create New Group',
     newGroupNamePlaceholder: 'Group name (e.g. Rome Trip)',
@@ -118,7 +127,16 @@ export const translations = {
     activeGroup: 'Active Group',
     whatsappShare: 'Copy for WhatsApp',
     whatsappCopied: 'WhatsApp Summary Copied!',
-    exportPdf: 'Print / Export PDF',
+    exportPdf: 'View Receipt / PDF',
+    receiptTitle: 'Expense & Settlement Receipt',
+    receiptNo: 'RECEIPT NO',
+    receiptDate: 'DATE',
+    receiptItems: 'EXPENSE ITEMS',
+    receiptTransfers: 'SETTLEMENT TRANSFERS',
+    receiptTotal: 'GRAND TOTAL',
+    receiptPerPerson: 'AVERAGE PER PERSON',
+    printBtn: 'Print / Save PDF',
+    receiptWatermark: 'Digitally generated with FairSplit.',
     // Intro & Toast
     introTitle: 'Welcome to FairSplit! 👋',
     introSubtitle: 'The fastest, serverless way to split group expenses.',
