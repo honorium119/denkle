@@ -8,7 +8,18 @@
 @layer base {
   body {
     font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom: env(safe-area-inset-bottom, 16px);
   }
+
+  /* iOS Safari'de inputa tıklayınca sayfanın kontrolsüz zoom yapmasını engeller */
+  @media screen and (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Sayı oklarını gizleme */
   input[type='number']::-webkit-outer-spin-button,
   input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -17,6 +28,11 @@
   input[type='number'] {
     -moz-appearance: textfield;
   }
+}
+
+/* iOS Safari İvmeli Kaydırma (Momentum Scrolling) */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Jilet Gibi Fiş PDF / Yazdırma Motoru */
@@ -28,12 +44,10 @@
     padding: 0 !important;
   }
 
-  /* Ana arayüzü ve butonları gizle */
   header, main, .no-print {
     display: none !important;
   }
 
-  /* Modal karartmasını kaldır ve fişi sayfaya yerleştir */
   .receipt-overlay {
     position: static !important;
     background: transparent !important;
