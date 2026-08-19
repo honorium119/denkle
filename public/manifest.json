@@ -9,7 +9,9 @@
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "id": "/denkle/",
+  "start_url": "/denkle/",
+  "scope": "/denkle/",
   "background_color": "#09090b",
   "theme_color": "#059669",
   "display": "standalone",
