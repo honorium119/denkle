@@ -1,11 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Receipt, Plus, ChevronDown, Check } from 'lucide-react';
+import { Receipt, Plus, ChevronDown, Check, X, Sparkles } from 'lucide-react';
 import { useGroupStore } from '../hooks/useGroupStore';
 import { translations } from '../utils/translations';
 import { Toast } from './Toast';
 
 export const ExpenseForm: React.FC = () => {
-  const { members, currency, addExpense, lang } = useGroupStore();
+  const {
+    getActiveGroup,
+    addExpense,
+    updateExpense,
+    editingExpenseId,
+    setEditingExpenseId,
+    lang,
+  } = useGroupStore();
+
+  const currentGroup = getActiveGroup();
+  const { members, currency, expenses } = currentGroup;
+
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [payer, setPayer] = useState(members[0] || '');
@@ -15,16 +26,30 @@ export const ExpenseForm: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const t = translations[lang];
 
-  // Üyeler silindiğinde veya değiştiğinde seçili kişiyi ve katılımcıları güvenli şekilde güncelle
+  // Düzenleme moduna girildiğinde form verilerini doldur
   useEffect(() => {
-    if (!members.includes(payer)) {
-      setPayer(members[0] || '');
+    if (editingExpenseId) {
+      const exp = expenses.find((e) => e.id === editingExpenseId);
+      if (exp) {
+        setDescription(exp.description);
+        setAmount(exp.amount.toString());
+        setPayer(exp.payer);
+        setSelectedParticipants(exp.participants);
+      }
     }
-    setSelectedParticipants((prev) => {
-      const valid = prev.filter((m) => members.includes(m));
-      return valid.length > 0 ? valid : members;
-    });
-  }, [members, payer]);
+  }, [editingExpenseId, expenses]);
+
+  useEffect(() => {
+    if (!editingExpenseId) {
+      if (!members.includes(payer)) {
+        setPayer(members[0] || '');
+      }
+      setSelectedParticipants((prev) => {
+        const valid = prev.filter((m) => members.includes(m));
+        return valid.length > 0 ? valid : members;
+      });
+    }
+  }, [members, payer, editingExpenseId]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,11 +73,12 @@ export const ExpenseForm: React.FC = () => {
     }
   };
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    // Maksimum 9 basamak ve 2 ondalık hane kontrolü
-    if (val.length > 11) return;
-    setAmount(val);
+  const handleCancelEdit = () => {
+    setEditingExpenseId(null);
+    setDescription('');
+    setAmount('');
+    setPayer(members[0] || '');
+    setSelectedParticipants(members);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,31 +102,54 @@ export const ExpenseForm: React.FC = () => {
       return;
     }
 
-    if (!payer || !members.includes(payer)) {
-      setPayer(members[0] || '');
-      return;
+    if (editingExpenseId) {
+      updateExpense(editingExpenseId, {
+        description: description.trim(),
+        amount: parsedAmount,
+        payer,
+        participants: selectedParticipants,
+      });
+      setToastMessage({ msg: t.toastExpenseUpdated, type: 'success' });
+    } else {
+      addExpense({
+        description: description.trim(),
+        amount: parsedAmount,
+        payer,
+        participants: selectedParticipants,
+      });
+      setToastMessage({ msg: t.toastExpenseAdded, type: 'success' });
     }
-
-    addExpense({
-      description: description.trim(),
-      amount: parsedAmount,
-      payer,
-      participants: selectedParticipants,
-    });
 
     setDescription('');
     setAmount('');
-    setToastMessage({ msg: t.toastExpenseAdded, type: 'success' });
   };
 
   if (members.length === 0) return null;
 
   return (
     <>
-      <div className="bg-white dark:bg-zinc-900 rounded-2xl p-4 sm:p-6 shadow-xs border border-zinc-200/70 dark:border-zinc-800 mb-6 transition-colors">
-        <div className="flex items-center gap-2 mb-4">
-          <Receipt className="w-5 h-5 text-teal-600 dark:text-emerald-400" />
-          <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">{t.newExpense}</h2>
+      <div
+        className={`bg-white dark:bg-zinc-900 rounded-2xl p-4 sm:p-6 shadow-xs border transition-colors mb-6 ${
+          editingExpenseId
+            ? 'border-teal-500 dark:border-emerald-400 ring-2 ring-teal-500/20 dark:ring-emerald-400/20'
+            : 'border-zinc-200/70 dark:border-zinc-800'
+        }`}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Receipt className="w-5 h-5 text-teal-600 dark:text-emerald-400" />
+            <h2 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+              {editingExpenseId ? t.editExpense : t.newExpense}
+            </h2>
+          </div>
+          {editingExpenseId && (
+            <button
+              onClick={handleCancelEdit}
+              className="text-xs font-semibold text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 flex items-center gap-1 transition cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" /> {t.cancelEdit}
+            </button>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -128,14 +177,16 @@ export const ExpenseForm: React.FC = () => {
                 max="10000000"
                 placeholder="0.00"
                 value={amount}
-                onChange={handleAmountChange}
+                onChange={(e) => {
+                  if (e.target.value.length <= 11) setAmount(e.target.value);
+                }}
                 className="w-full px-3.5 py-2.5 text-sm bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-emerald-500/20 focus:border-teal-600 dark:focus:border-emerald-400 transition"
                 required
               />
             </div>
           </div>
 
-          {/* Özel "Kim Ödedi" Seçim Menüsü */}
+          {/* "Kim Ödedi" Seçim Menüsü */}
           <div className="relative" ref={dropdownRef}>
             <label className="block text-xs font-semibold text-zinc-600 dark:text-zinc-400 mb-1">{t.whoPaid}</label>
             <button
@@ -143,7 +194,7 @@ export const ExpenseForm: React.FC = () => {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="w-full flex items-center justify-between px-3.5 py-2.5 text-sm bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:focus:ring-emerald-500/20 focus:border-teal-600 dark:focus:border-emerald-400 transition cursor-pointer"
             >
-              <span>{members.includes(payer) ? payer : (members[0] || '')}</span>
+              <span>{members.includes(payer) ? payer : members[0] || ''}</span>
               <ChevronDown className={`w-4 h-4 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180 text-teal-600 dark:text-emerald-400' : ''}`} />
             </button>
 
@@ -204,7 +255,8 @@ export const ExpenseForm: React.FC = () => {
             type="submit"
             className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-zinc-950 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition shadow-xs cursor-pointer"
           >
-            <Plus className="w-4 h-4" /> {t.saveExpense}
+            {editingExpenseId ? <Sparkles className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+            {editingExpenseId ? t.updateExpense : t.saveExpense}
           </button>
         </form>
       </div>

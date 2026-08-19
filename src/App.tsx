@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle, Pencil } from 'lucide-react';
+import { Share2, RotateCcw, Moon, Sun, Globe, HelpCircle, Pencil, FolderKanban } from 'lucide-react';
 import { useGroupStore } from './hooks/useGroupStore';
 import { MemberManager } from './components/MemberManager';
 import { ExpenseForm } from './components/ExpenseForm';
@@ -8,6 +8,7 @@ import { SettlementView } from './components/SettlementView';
 import { ShareModal } from './components/ShareModal';
 import { ConfirmModal } from './components/ConfirmModal';
 import { IntroModal } from './components/IntroModal';
+import { GroupDrawer } from './components/GroupDrawer';
 import { translations } from './utils/translations';
 
 // Sade & Anlamlı Bölme (÷) Sembolü Logosu
@@ -23,9 +24,8 @@ const DivisionBrandLogo = () => (
 
 export default function App() {
   const {
-    groupName,
+    getActiveGroup,
     setGroupName,
-    currency,
     setCurrency,
     theme,
     toggleTheme,
@@ -35,9 +35,11 @@ export default function App() {
     resetGroup,
   } = useGroupStore();
 
+  const currentGroup = getActiveGroup();
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
   const [isIntroOpen, setIsIntroOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const t = translations[lang];
 
@@ -62,19 +64,28 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 pb-16 overflow-x-hidden transition-colors duration-200">
-      {/* Üst Menü Çubuğu (Mobilde Ferah & Sıkışmayan Düzen) */}
-      <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors">
+      {/* Üst Menü Çubuğu */}
+      <header className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors print:hidden">
         <div className="max-w-4xl mx-auto px-2.5 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-3">
           
-          {/* Sol: Logo + Grup Adı + Sabit Kalem Butonu */}
+          {/* Sol: Gruplar Çekmecesi Butonu + Logo + Grup Adı + Kalem */}
           <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
+            <button
+              onClick={() => setIsDrawerOpen(true)}
+              className="p-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0"
+              title={t.groupsTitle}
+            >
+              <FolderKanban className="w-4 h-4 text-teal-600 dark:text-emerald-400" />
+            </button>
+
             <DivisionBrandLogo />
-            <div className="flex items-center gap-1 min-w-0 max-w-[110px] sm:max-w-[240px]">
+
+            <div className="flex items-center gap-1 min-w-0 max-w-[110px] sm:max-w-[220px]">
               <input
                 ref={inputRef}
                 type="text"
                 maxLength={30}
-                value={groupName}
+                value={currentGroup.name}
                 onChange={(e) => setGroupName(e.target.value)}
                 className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-base focus:outline-none border-b border-transparent hover:border-zinc-300 dark:hover:border-zinc-700 focus:border-teal-600 dark:focus:border-emerald-400 transition truncate bg-transparent tracking-tight w-full cursor-text"
                 placeholder={t.groupNamePlaceholder}
@@ -94,7 +105,7 @@ export default function App() {
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             {/* Para Birimi */}
             <select
-              value={currency}
+              value={currentGroup.currency}
               onChange={(e) => setCurrency(e.target.value)}
               className="text-[11px] sm:text-xs font-semibold bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200/60 dark:border-zinc-700/60 rounded-lg sm:rounded-xl px-1.5 py-1 sm:px-2.5 sm:py-2 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
             >
@@ -114,7 +125,7 @@ export default function App() {
               <span className="uppercase">{lang}</span>
             </button>
 
-            {/* Tanıtım / Yardım Butonu */}
+            {/* Tanıtım / Yardım */}
             <button
               onClick={() => setIsIntroOpen(true)}
               className="p-1 sm:p-2 bg-zinc-100 dark:bg-zinc-800/80 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-lg sm:rounded-xl transition cursor-pointer"
@@ -152,13 +163,21 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Ana Gövde */}
       <main className="max-w-4xl mx-auto px-3 sm:px-4 pt-4 sm:pt-8">
+        {/* Yazdırma Esnasında Görünen Özel Başlık */}
+        <div className="hidden print:block mb-6 pb-4 border-b">
+          <h1 className="text-2xl font-bold">{currentGroup.name}</h1>
+          <p className="text-sm text-gray-500">FairSplit Harcama ve Borç Döküm Raporu</p>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           {/* Sol Kolon */}
           <div className="lg:col-span-7">
             <MemberManager />
-            <ExpenseForm />
+            <div className="print:hidden">
+              <ExpenseForm />
+            </div>
             <ExpenseList />
           </div>
 
@@ -171,7 +190,8 @@ export default function App() {
         </div>
       </main>
 
-      {/* Modallar */}
+      {/* Modallar ve Çekmeceler */}
+      <GroupDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
       <ShareModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} />
       <IntroModal isOpen={isIntroOpen} onClose={handleCloseIntro} />
 

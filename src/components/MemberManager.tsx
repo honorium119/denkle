@@ -5,7 +5,8 @@ import { translations } from '../utils/translations';
 import { Toast } from './Toast';
 
 export const MemberManager: React.FC = () => {
-  const { members, addMember, removeMember, lang } = useGroupStore();
+  const { getActiveGroup, addMember, removeMember, lang } = useGroupStore();
+  const { members } = getActiveGroup();
   const [name, setName] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const t = translations[lang];
