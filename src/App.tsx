@@ -78,116 +78,153 @@ export default function App() {
 
       <div>
         {/* Üst Menü Çubuğu */}
-        <header className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors no-print">
-          <div className="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2.5 sm:gap-4">
+        <header className="bg-white/85 dark:bg-zinc-900/85 backdrop-blur-xl border-b border-zinc-200/80 dark:border-zinc-800/80 sticky top-0 z-40 transition-colors no-print">
+          <div className="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 sm:py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
             
-            {/* Sol: Gruplar Çekmecesi + Dynamic Slice Logo + Genişletilmiş Grup Adı */}
-            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 max-w-[52%] sm:max-w-[62%]">
+            {/* 1. SATIR: Marka/Logo & Sağ Aksiyon Butonları (Masaüstünde sol kısım grup adını da içerir) */}
+            <div className="flex items-center justify-between gap-2 w-full sm:w-auto sm:flex-1">
+              
+              {/* Sol: Logo + (Masaüstü için Grup Çekmecesi & Grup Adı) */}
+              <div className="flex items-center gap-2 shrink-0">
+                <DynamicSliceLogo />
+                <span className="font-extrabold text-sm tracking-tight text-zinc-900 dark:text-zinc-100 sm:hidden">
+                  Denkle
+                </span>
+              </div>
+
+              {/* Masaüstünde Grup Adı Girişi */}
+              <div className="hidden sm:flex items-center gap-2 min-w-0 flex-1 max-w-xs md:max-w-sm ml-2">
+                <button
+                  type="button"
+                  onClick={() => setIsDrawerOpen(true)}
+                  className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0"
+                  title={t.groupsTitle}
+                  aria-label={t.groupsTitle}
+                >
+                  <FolderKanban className="w-4 h-4 text-teal-600 dark:text-emerald-400" />
+                </button>
+
+                <div className="flex items-center gap-1.5 flex-1 bg-zinc-100/80 dark:bg-zinc-800/60 px-3 py-1.5 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60 focus-within:border-teal-500 dark:focus-within:border-emerald-400 transition">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    maxLength={30}
+                    aria-label={t.groupNamePlaceholder}
+                    value={currentGroup?.name || ''}
+                    onChange={(e) => setGroupName(e.target.value)}
+                    className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-sm focus:outline-none bg-transparent tracking-tight w-full truncate cursor-text"
+                    placeholder={t.groupNamePlaceholder}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => inputRef.current?.focus()}
+                    aria-label="Grup Adını Düzenle"
+                    className="text-zinc-400 hover:text-teal-600 dark:hover:text-emerald-400 transition cursor-pointer shrink-0"
+                    title="Grup Adını Düzenle"
+                  >
+                    <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Sağ Aksiyon Butonları */}
+              <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+                <label htmlFor="currency-select" className="sr-only">
+                  {lang === 'tr' ? 'Para Birimi Seçimi' : 'Currency Selection'}
+                </label>
+                <select
+                  id="currency-select"
+                  aria-label={lang === 'tr' ? 'Para Birimi' : 'Currency'}
+                  value={currentGroup?.currency || '₺'}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="text-[11px] sm:text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl px-2 py-1.5 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
+                >
+                  <option value="₺">₺ TRY</option>
+                  <option value="$">$ USD</option>
+                  <option value="€">€ EUR</option>
+                  <option value="£">£ GBP</option>
+                </select>
+
+                <button
+                  type="button"
+                  onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
+                  aria-label={lang === 'tr' ? "Switch to English" : "Türkçe'ye Geç"}
+                  className="px-2 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer"
+                  title="Change Language"
+                >
+                  <Globe className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span className="uppercase">{lang}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsIntroOpen(true)}
+                  aria-label={t.helpBtn}
+                  className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-xl transition cursor-pointer hidden md:flex items-center justify-center"
+                  title={t.helpBtn}
+                >
+                  <HelpCircle className="w-4 h-4 text-teal-600 dark:text-emerald-400" aria-hidden="true" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label={theme === 'light' ? 'Karanlık Moda Geç' : 'Aydınlık Moda Geç'}
+                  className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer"
+                  title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
+                >
+                  {theme === 'light' ? <Moon className="w-4 h-4 text-zinc-600" aria-hidden="true" /> : <Sun className="w-4 h-4 text-amber-400" aria-hidden="true" />}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsShareOpen(true)}
+                  aria-label={t.shareBtn}
+                  className="p-1.5 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-emerald-500/20"
+                >
+                  <Share2 className="w-4 h-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">{t.shareBtn}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsResetModalOpen(true)}
+                  aria-label={t.resetBtn}
+                  className="p-1.5 sm:p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
+                  title={t.resetBtn}
+                >
+                  <RotateCcw className="w-4 h-4" aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+
+            {/* 2. SATIR (MOBİLE ÖZEL): %100 Ferah Grup Çubuğu */}
+            <div className="flex sm:hidden items-center gap-2 w-full pt-2 border-t border-zinc-200/50 dark:border-zinc-800/80">
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(true)}
-                className="p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0"
+                className="px-2.5 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer shrink-0 flex items-center gap-1.5 text-xs font-semibold border border-zinc-200/60 dark:border-zinc-700/60"
                 title={t.groupsTitle}
                 aria-label={t.groupsTitle}
               >
-                <FolderKanban className="w-4 h-4 text-teal-600 dark:text-emerald-400" />
+                <FolderKanban className="w-3.5 h-3.5 text-teal-600 dark:text-emerald-400" />
+                <span>{t.groupsTitle}</span>
               </button>
 
-              <DynamicSliceLogo />
-
-              {/* Ferah Grup Adı Kapsayıcısı */}
-              <div className="flex items-center gap-1.5 min-w-[120px] flex-1 bg-zinc-100/80 dark:bg-zinc-800/60 hover:bg-zinc-100 dark:hover:bg-zinc-800 px-2.5 py-1.5 rounded-xl border border-zinc-200/60 dark:border-zinc-700/60 focus-within:border-teal-500 dark:focus-within:border-emerald-400 transition">
+              <div className="flex items-center gap-1.5 flex-1 bg-zinc-100/90 dark:bg-zinc-800/80 px-3 py-1.5 rounded-xl border border-zinc-200/80 dark:border-zinc-700/80 focus-within:border-teal-500 dark:focus-within:border-emerald-400 transition">
                 <input
-                  ref={inputRef}
                   type="text"
                   maxLength={30}
                   aria-label={t.groupNamePlaceholder}
                   value={currentGroup?.name || ''}
                   onChange={(e) => setGroupName(e.target.value)}
-                  className="font-bold text-zinc-900 dark:text-zinc-100 text-xs sm:text-sm focus:outline-none bg-transparent tracking-tight w-full truncate cursor-text"
+                  className="font-bold text-zinc-900 dark:text-zinc-100 text-xs focus:outline-none bg-transparent tracking-tight w-full truncate cursor-text"
                   placeholder={t.groupNamePlaceholder}
                 />
-                <button
-                  type="button"
-                  onClick={() => inputRef.current?.focus()}
-                  aria-label="Grup Adını Düzenle"
-                  className="text-zinc-400 hover:text-teal-600 dark:hover:text-emerald-400 transition cursor-pointer shrink-0"
-                  title="Grup Adını Düzenle"
-                >
-                  <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
-                </button>
+                <Pencil className="w-3.5 h-3.5 text-zinc-400 shrink-0" aria-hidden="true" />
               </div>
             </div>
 
-            {/* Sağ: Kompakt Aksiyon Butonları */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-              <label htmlFor="currency-select" className="sr-only">
-                {lang === 'tr' ? 'Para Birimi Seçimi' : 'Currency Selection'}
-              </label>
-              <select
-                id="currency-select"
-                aria-label={lang === 'tr' ? 'Para Birimi' : 'Currency'}
-                value={currentGroup?.currency || '₺'}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="text-[11px] sm:text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/60 dark:border-zinc-700/60 rounded-xl px-2 py-1.5 text-zinc-700 dark:text-zinc-200 focus:ring-0 cursor-pointer transition"
-              >
-                <option value="₺">₺ TRY</option>
-                <option value="$">$ USD</option>
-                <option value="€">€ EUR</option>
-                <option value="£">£ GBP</option>
-              </select>
-
-              <button
-                type="button"
-                onClick={() => setLang(lang === 'tr' ? 'en' : 'tr')}
-                aria-label={lang === 'tr' ? "Switch to English" : "Türkçe'ye Geç"}
-                className="px-2 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer"
-                title="Change Language"
-              >
-                <Globe className="w-3.5 h-3.5" aria-hidden="true" />
-                <span className="uppercase">{lang}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsIntroOpen(true)}
-                aria-label={t.helpBtn}
-                className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-600 dark:text-zinc-300 rounded-xl transition cursor-pointer hidden md:flex items-center justify-center"
-                title={t.helpBtn}
-              >
-                <HelpCircle className="w-4 h-4 text-teal-600 dark:text-emerald-400" aria-hidden="true" />
-              </button>
-
-              <button
-                type="button"
-                onClick={toggleTheme}
-                aria-label={theme === 'light' ? 'Karanlık Moda Geç' : 'Aydınlık Moda Geç'}
-                className="p-1.5 sm:p-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 border border-zinc-200/60 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-200 rounded-xl transition cursor-pointer"
-                title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
-              >
-                {theme === 'light' ? <Moon className="w-4 h-4 text-zinc-600" aria-hidden="true" /> : <Sun className="w-4 h-4 text-amber-400" aria-hidden="true" />}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsShareOpen(true)}
-                aria-label={t.shareBtn}
-                className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-teal-600 dark:bg-emerald-500 text-white dark:text-zinc-950 hover:bg-teal-700 dark:hover:bg-emerald-400 rounded-xl text-[11px] sm:text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-sm shadow-emerald-500/20"
-              >
-                <Share2 className="w-3.5 h-3.5" aria-hidden="true" />
-                <span className="hidden sm:inline">{t.shareBtn}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsResetModalOpen(true)}
-                aria-label={t.resetBtn}
-                className="p-1.5 sm:p-2 text-zinc-400 hover:text-red-600 dark:hover:text-red-400 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition cursor-pointer"
-                title={t.resetBtn}
-              >
-                <RotateCcw className="w-4 h-4" aria-hidden="true" />
-              </button>
-            </div>
           </div>
         </header>
 
