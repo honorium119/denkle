@@ -11,7 +11,8 @@ interface ShareModalProps {
 }
 
 export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
-  const { groupName, currency, members, expenses, lang } = useGroupStore();
+  const { getActiveGroup, lang } = useGroupStore();
+  const { name: groupName, currency, members, expenses } = getActiveGroup();
   const [copied, setCopied] = useState(false);
   const t = translations[lang];
 
