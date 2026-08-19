@@ -1,0 +1,15 @@
+# Denkle
+
+> Denkle, arkadaş grupları ve seyahat ekipleri için kayıt gerektirmeyen, verileri cihazda saklayan ve ortak masrafları minimum transferle dengeleyen modern bir hesap paylaşım uygulamasıdır.
+
+## Proje Bağlantıları
+
+- [Canlı Uygulama](https://onurakbulut.tr/denkle/): Denkle web uygulamasını tarayıcıda veya PWA olarak kullanın.
+- [GitHub Deposu](https://github.com/honorium119/denkle): Kaynak kodları, dokümantasyon ve katkı rehberi.
+- [Geliştirici Web Sitesi](https://onurakbulut.tr): Geliştirici Onur Akbulut portfolyo ve iletişim sayfası.
+
+## Temel Özellikler
+
+- [Algoritma & Borç Dengeleme](https://onurakbulut.tr/denkle/): Minimum para transferi algoritması ile grup borçlarını sadeleştirir.
+- [Gizlilik Politikası & Mimari](https://onurakbulut.tr/denkle/): Veritabanı ve üyelik gerektirmez, tüm veriler tarayıcı yerel hafızasında saklanır.
+- [PWA & Çevrimdışı Çalışma](https://onurakbulut.tr/denkle/): Cihaza yüklenebilir ve internetsiz ortamda hesaplama yapabilir.
