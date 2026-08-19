@@ -1,256 +1,279 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Expense } from '../utils/settleDebts';
-import { decodeGroupData, type ShareableGroupData } from '../utils/urlState';
+import { decodeGroupData } from '../utils/urlState';
 import type { Language } from '../utils/translations';
+
+export interface ExpenseItem {
+  id: string;
+  description: string;
+  amount: number;
+  payer: string;
+  participants: string[];
+  date: string;
+}
 
 export interface GroupItem {
   id: string;
   name: string;
   currency: string;
   members: string[];
-  expenses: Expense[];
-  createdAt: number;
+  expenses: ExpenseItem[];
 }
 
-interface GroupState {
+export interface GroupState {
   groups: GroupItem[];
   activeGroupId: string;
+  editingExpenseId: string | null;
   theme: 'light' | 'dark';
   lang: Language;
-  editingExpenseId: string | null;
   isReceiptOpen: boolean;
 
   // Grup Eylemleri
   getActiveGroup: () => GroupItem;
+  setActiveGroupId: (id: string) => void;
   createGroup: (name: string) => void;
-  selectGroup: (id: string) => void;
   deleteGroup: (id: string) => void;
   setGroupName: (name: string) => void;
   setCurrency: (currency: string) => void;
-  setLang: (lang: Language) => void;
-  toggleTheme: () => void;
-  setIsReceiptOpen: (isOpen: boolean) => void;
+  resetGroup: () => void;
 
-  // Masraf ve Üye Eylemleri
+  // Üye Eylemleri
   addMember: (name: string) => void;
   removeMember: (name: string) => void;
-  addExpense: (expense: Omit<Expense, 'id'>) => void;
-  updateExpense: (id: string, expense: Omit<Expense, 'id'>) => void;
+
+  // Masraf Eylemleri
+  addExpense: (expense: Omit<ExpenseItem, 'id' | 'date'>) => void;
+  updateExpense: (id: string, expense: Omit<ExpenseItem, 'id' | 'date'>) => void;
   deleteExpense: (id: string) => void;
-  setEditingExpenseId: (id: string | null) => void;
   clearExpenses: () => void;
-  resetGroup: () => void;
-  loadFromData: (data: ShareableGroupData) => void;
-  checkUrlForData: () => boolean;
+  setEditingExpenseId: (id: string | null) => void;
+
+  // Genel Ayarlar & Durumlar
+  toggleTheme: () => void;
+  setLang: (lang: Language) => void;
+  setIsReceiptOpen: (isOpen: boolean) => void;
+  checkUrlForData: () => void;
 }
 
-const defaultInitialGroup: GroupItem = {
-  id: 'default-group',
+const defaultGroupId = 'default-group-1';
+
+// TEMİZ BAŞLANGIÇ: Sahte kullanıcılar kaldırıldı, tertemiz boş liste
+const initialDefaultGroup: GroupItem = {
+  id: defaultGroupId,
   name: 'Yeni Grup',
   currency: '₺',
-  members: [],
-  expenses: [],
-  createdAt: Date.now(),
+  members: [], // Sıfır üye
+  expenses: [], // Sıfır masraf
 };
 
 export const useGroupStore = create<GroupState>()(
   persist(
     (set, get) => ({
-      groups: [defaultInitialGroup],
-      activeGroupId: 'default-group',
-      theme: 'light',
-      lang: 'tr',
+      groups: [initialDefaultGroup],
+      activeGroupId: defaultGroupId,
       editingExpenseId: null,
+      theme: 'dark',
+      lang: 'tr',
       isReceiptOpen: false,
 
       getActiveGroup: () => {
-        const { groups, activeGroupId } = get();
-        return groups.find((g) => g.id === activeGroupId) || groups[0] || defaultInitialGroup;
+        const state = get();
+        return (
+          state.groups.find((g) => g.id === state.activeGroupId) ||
+          state.groups[0] ||
+          initialDefaultGroup
+        );
       },
 
-      createGroup: (name) => {
+      setActiveGroupId: (id: string) => set({ activeGroupId: id }),
+
+      setEditingExpenseId: (id: string | null) => set({ editingExpenseId: id }),
+
+      createGroup: (name: string) => {
         const newGroup: GroupItem = {
-          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-          name: name.trim() || (get().lang === 'tr' ? 'Yeni Grup' : 'New Group'),
+          id: `group-${Date.now()}`,
+          name: name.trim() || 'Yeni Grup',
           currency: '₺',
           members: [],
           expenses: [],
-          createdAt: Date.now(),
         };
         set((state) => ({
-          groups: [newGroup, ...state.groups],
+          groups: [...state.groups, newGroup],
           activeGroupId: newGroup.id,
-          editingExpenseId: null,
         }));
       },
 
-      selectGroup: (id) => {
-        set({ activeGroupId: id, editingExpenseId: null });
-      },
-
-      deleteGroup: (id) => {
-        const { groups, activeGroupId } = get();
-        if (groups.length <= 1) {
-          get().resetGroup();
-          return;
-        }
-        const remaining = groups.filter((g) => g.id !== id);
-        set({
-          groups: remaining,
-          activeGroupId: activeGroupId === id ? remaining[0].id : activeGroupId,
-          editingExpenseId: null,
+      deleteGroup: (id: string) => {
+        set((state) => {
+          const filtered = state.groups.filter((g) => g.id !== id);
+          if (filtered.length === 0) {
+            return {
+              groups: [initialDefaultGroup],
+              activeGroupId: defaultGroupId,
+            };
+          }
+          return {
+            groups: filtered,
+            activeGroupId: state.activeGroupId === id ? filtered[0].id : state.activeGroupId,
+          };
         });
       },
 
-      setGroupName: (name) => {
+      setGroupName: (name: string) => {
         set((state) => ({
-          groups: state.groups.map((g) => (g.id === state.activeGroupId ? { ...g, name } : g)),
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId ? { ...g, name } : g
+          ),
         }));
       },
 
-      setCurrency: (currency) => {
+      setCurrency: (currency: string) => {
         set((state) => ({
-          groups: state.groups.map((g) => (g.id === state.activeGroupId ? { ...g, currency } : g)),
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId ? { ...g, currency } : g
+          ),
         }));
       },
 
-      setLang: (lang) => set({ lang }),
-      setIsReceiptOpen: (isReceiptOpen) => set({ isReceiptOpen }),
-
-      toggleTheme: () => {
-        const nextTheme = get().theme === 'light' ? 'dark' : 'light';
-        if (nextTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-        set({ theme: nextTheme });
-      },
-
-      addMember: (name) => {
-        const trimmed = name.trim();
-        if (!trimmed) return;
-        const current = get().getActiveGroup();
-        if (!current.members.includes(trimmed)) {
-          set((state) => ({
-            groups: state.groups.map((g) =>
-              g.id === state.activeGroupId ? { ...g, members: [...g.members, trimmed] } : g
-            ),
-          }));
-        }
-      },
-
-      removeMember: (name) => {
+      resetGroup: () => {
         set((state) => ({
-          groups: state.groups.map((g) => {
-            if (g.id !== state.activeGroupId) return g;
-            return {
-              ...g,
-              members: g.members.filter((m) => m !== name),
-              expenses: g.expenses
-                .filter((e) => e.payer !== name)
-                .map((e) => ({
-                  ...e,
-                  participants: e.participants.filter((p) => p !== name),
-                }))
-                .filter((e) => e.participants.length > 0),
-            };
-          }),
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId
+              ? { ...g, members: [], expenses: [] }
+              : g
+          ),
+        }));
+      },
+
+      addMember: (name: string) => {
+        set((state) => ({
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId && !g.members.includes(name)
+              ? { ...g, members: [...g.members, name] }
+              : g
+          ),
+        }));
+      },
+
+      removeMember: (name: string) => {
+        set((state) => ({
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId
+              ? {
+                  ...g,
+                  members: g.members.filter((m) => m !== name),
+                  expenses: g.expenses
+                    .filter((e) => e.payer !== name)
+                    .map((e) => ({
+                      ...e,
+                      participants: e.participants.filter((p) => p !== name),
+                    }))
+                    .filter((e) => e.participants.length > 0),
+                }
+              : g
+          ),
         }));
       },
 
       addExpense: (expenseData) => {
-        const newExpense: Expense = {
+        const newExpense: ExpenseItem = {
           ...expenseData,
-          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+          id: `exp-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+          date: new Date().toISOString(),
         };
         set((state) => ({
           groups: state.groups.map((g) =>
-            g.id === state.activeGroupId ? { ...g, expenses: [newExpense, ...g.expenses] } : g
+            g.id === state.activeGroupId
+              ? { ...g, expenses: [newExpense, ...g.expenses] }
+              : g
           ),
         }));
       },
 
       updateExpense: (id, expenseData) => {
         set((state) => ({
-          groups: state.groups.map((g) => {
-            if (g.id !== state.activeGroupId) return g;
-            return {
-              ...g,
-              expenses: g.expenses.map((e) => (e.id === id ? { ...expenseData, id } : e)),
-            };
-          }),
           editingExpenseId: null,
-        }));
-      },
-
-      deleteExpense: (id) => {
-        set((state) => ({
           groups: state.groups.map((g) =>
-            g.id === state.activeGroupId ? { ...g, expenses: g.expenses.filter((e) => e.id !== id) } : g
+            g.id === state.activeGroupId
+              ? {
+                  ...g,
+                  expenses: g.expenses.map((e) =>
+                    e.id === id ? { ...e, ...expenseData } : e
+                  ),
+                }
+              : g
           ),
         }));
       },
 
-      setEditingExpenseId: (id) => set({ editingExpenseId: id }),
+      deleteExpense: (id: string) => {
+        set((state) => ({
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId
+              ? { ...g, expenses: g.expenses.filter((e) => e.id !== id) }
+              : g
+          ),
+        }));
+      },
 
       clearExpenses: () => {
         set((state) => ({
-          groups: state.groups.map((g) => (g.id === state.activeGroupId ? { ...g, expenses: [] } : g)),
-        }));
-        window.location.hash = '';
-      },
-
-      resetGroup: () => {
-        const resetItem: GroupItem = {
-          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-          name: get().lang === 'tr' ? 'Yeni Grup' : 'New Group',
-          currency: '₺',
-          members: [],
-          expenses: [],
-          createdAt: Date.now(),
-        };
-        set({
-          groups: [resetItem],
-          activeGroupId: resetItem.id,
-          editingExpenseId: null,
-        });
-        window.location.hash = '';
-      },
-
-      loadFromData: (data) => {
-        const importedGroup: GroupItem = {
-          id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-          name: data.groupName || (get().lang === 'tr' ? 'Paylaşılan Grup' : 'Shared Group'),
-          currency: data.currency || '₺',
-          members: data.members || [],
-          expenses: data.expenses || [],
-          createdAt: Date.now(),
-        };
-        set((state) => ({
-          groups: [importedGroup, ...state.groups.filter((g) => g.name !== importedGroup.name)],
-          activeGroupId: importedGroup.id,
-          editingExpenseId: null,
+          groups: state.groups.map((g) =>
+            g.id === state.activeGroupId ? { ...g, expenses: [] } : g
+          ),
         }));
       },
+
+      toggleTheme: () => {
+        set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' }));
+      },
+
+      setLang: (lang: Language) => set({ lang }),
+
+      setIsReceiptOpen: (isReceiptOpen: boolean) => set({ isReceiptOpen }),
 
       checkUrlForData: () => {
+        if (typeof window === 'undefined') return;
         const hash = window.location.hash;
-        if (hash && hash.startsWith('#data=')) {
-          const encoded = hash.replace('#data=', '');
-          const data = decodeGroupData(encoded);
-          if (data) {
-            get().loadFromData(data);
+        if (hash.includes('data=')) {
+          const encoded = hash.split('data=')[1];
+          const decoded = decodeGroupData(encoded);
+          if (decoded && decoded.members && decoded.expenses) {
+            const formattedExpenses: ExpenseItem[] = (decoded.expenses as any[]).map((exp) => ({
+              id: exp.id || `exp-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+              description: exp.description,
+              amount: exp.amount,
+              payer: exp.payer,
+              participants: exp.participants,
+              date: exp.date || new Date().toISOString(),
+            }));
+
+            const importedGroup: GroupItem = {
+              id: `imported-${Date.now()}`,
+              name: decoded.groupName || 'Paylaşılan Grup',
+              currency: decoded.currency || '₺',
+              members: decoded.members,
+              expenses: formattedExpenses,
+            };
+
+            set((state) => ({
+              groups: [importedGroup, ...state.groups.filter((g) => g.name !== importedGroup.name)],
+              activeGroupId: importedGroup.id,
+            }));
+
             window.history.replaceState(null, '', window.location.pathname);
-            return true;
           }
         }
-        return false;
       },
     }),
     {
-      name: 'fairsplit-storage-v2',
+      name: 'denkle-multi-groups-v3', // v3 olarak güncelledik ki eski sahte verili hafıza sıfırlansın
+      partialize: (state) => ({
+        groups: state.groups,
+        activeGroupId: state.activeGroupId,
+        theme: state.theme,
+        lang: state.lang,
+      }),
     }
   )
 );
