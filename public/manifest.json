@@ -4,15 +4,15 @@
   "description": "Kayıt gerektirmeyen, verileri cihazda saklayan akıllı masraf bölüştürücü.",
   "icons": [
     {
-      "src": "favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
   ],
-  "id": "/denkle/",
-  "start_url": "/denkle/",
-  "scope": "/denkle/",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "background_color": "#09090b",
   "theme_color": "#059669",
   "display": "standalone",

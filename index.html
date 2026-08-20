@@ -2,59 +2,52 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
-
-    <!-- Trailing Slash Kilidi: Ana siteye (onurakbulut.tr) yönlenmeyi kesin olarak engeller -->
-    <script>
-      if (window.location.pathname === '/denkle') {
-        window.location.replace('/denkle/' + window.location.search + window.location.hash);
-      }
-    </script>
     
-    <!-- Sayfa Başlığı (SEO Odaklı) -->
+    <!-- Sayfa Başlığı -->
     <title>Denkle — Akıllı Masraf & Borç Paylaştırıcı | Kayıtsız & Ücretsiz</title>
     
-    <!-- Standart SEO Meta Etiketleri -->
+    <!-- SEO Meta Etiketleri -->
     <meta name="description" content="Arkadaşlarınızla ortak harcamaları en az sayıda para transferiyle adilce bölüştürün. Üyelik yok, kayıt yok, verileriniz %100 cihazınızda saklanır." />
-    <meta name="keywords" content="denkle, masraf bölüştürücü, borç dengeleme, hesap paylaşımı, alman usulü hesaplama, splitwise alternatifi, grup harcaması hesapla, onur akbulut" />
+    <meta name="keywords" content="denkle, masraf bölüştürücü, borç dengeleme, hesap paylaşımı, alman usulü hesaplama, onur akbulut" />
     <meta name="author" content="Onur Akbulut" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://onurakbulut.tr/denkle/" />
+    <link rel="canonical" href="https://denkle.onurakbulut.tr/" />
 
-    <!-- Dinamik Slice Vektör Favicon & Apple İkonu -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M6 18L18 6' stroke='%2310b981' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='8.5' cy='7.5' r='2.2' fill='%2310b981'/%3E%3Ccircle cx='15.5' cy='16.5' r='2.2' fill='%2310b981'/%3E%3C/svg%3E" />
-    <link rel="apple-touch-icon" href="https://onurakbulut.tr/denkle/favicon.svg" />
+    <!-- Favicon & Apple İkonu -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     
-    <!-- Mobil & PWA Ayarları -->
+    <!-- PWA & Mobil Görünüm -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="manifest" href="https://onurakbulut.tr/denkle/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#059669" />
     
-    <!-- iOS / Safari & Android PWA Sabitleyicileri -->
+    <!-- iOS / Android Standalone -->
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Denkle" />
 
-    <!-- Open Graph (WhatsApp, Telegram, Facebook Link Önizleme Kartları) -->
+    <!-- Open Graph (Link Önizlemeleri) -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://onurakbulut.tr/denkle/" />
+    <meta property="og:url" content="https://denkle.onurakbulut.tr/" />
     <meta property="og:site_name" content="Denkle" />
     <meta property="og:title" content="Denkle — Akıllı Masraf & Borç Paylaştırıcı" />
     <meta property="og:description" content="Hesap açmaya gerek yok! Masrafları girin, minimum transferle borçları saniyeler içinde denkleştirin." />
     <meta property="og:locale" content="tr_TR" />
 
-    <!-- Twitter / X Kart Etiketleri -->
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Denkle — Akıllı Masraf & Borç Paylaştırıcı" />
     <meta name="twitter:description" content="Kayıtsız, güvenli ve minimum transferle ortak harcamaları bölüştüren akıllı web uygulaması." />
 
-    <!-- Google Yapılandırılmış Veri (Schema.org WebApplication JSON-LD) -->
+    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Denkle",
-      "url": "https://onurakbulut.tr/denkle/",
+      "url": "https://denkle.onurakbulut.tr/",
       "description": "Kayıt gerektirmeyen, verileri cihazda saklayan ve borçları minimum transferle optimize eden hesap paylaşım aracı.",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "All",
@@ -72,24 +65,20 @@
     }
     </script>
 
-    <!-- Yazı Tipleri -->
+    <!-- Fontlar -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
-    <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      <script>
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/denkle/sw.js').catch(() => {});
-          });
-        }
-      </script>
-    </body>
-  </html>
   <body class="bg-zinc-50 dark:bg-zinc-950 transition-colors font-sans antialiased selection:bg-teal-500 selection:text-white overscroll-none">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>
