@@ -2,7 +2,7 @@
 
 > Ortak harcamaları adilce bölüştürün, minimum para transferiyle borçları saniyeler içinde dengeleyin.
 
-🚀 **Canlı Uygulama:** [DENKLE.ONURAKBULUT.TR](https://denkle.onurakbulut.tr/)
+🚀 **Canlı Uygulama:** [Uygulama Bağlantısı](https://denkle.onurakbulut.tr/)
 
 ---
 
